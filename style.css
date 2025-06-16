@@ -1,18 +1,38 @@
 body {
-  text-align: center;
-  font-family: "Comic Sans MS", cursive;
-  background-color: #f0f8ff;
-  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: linear-gradient(135deg, #f9e6f7, #e0b3d6);
+  color: #4a004a; /* deep purple for text */
 }
 
 #pet {
-  width: 200px;
-  transition: transform 0.3s;
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 20px;
+  border: 5px solid #d97fbf; /* soft pink border */
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(217, 127, 191, 0.7);
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-top: 20px;
+#feedButton {
+  padding: 12px 24px;
+  font-size: 1.2rem;
   cursor: pointer;
+  border-radius: 12px;
+  border: none;
+  background-color: #c97dbf; /* rosy pink */
+  color: #fff0f7; /* very light pink */
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(201, 125, 191, 0.6);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#feedButton:hover {
+  background-color: #b46bb0; /* deeper pink */
+  box-shadow: 0 6px 10px rgba(180, 107, 176, 0.8);
 }
