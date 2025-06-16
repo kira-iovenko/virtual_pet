@@ -1,0 +1,18 @@
+body {
+  text-align: center;
+  font-family: "Comic Sans MS", cursive;
+  background-color: #f0f8ff;
+  padding-top: 50px;
+}
+
+#pet {
+  width: 200px;
+  transition: transform 0.3s;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 20px;
+  cursor: pointer;
+}
