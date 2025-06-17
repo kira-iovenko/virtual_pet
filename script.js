@@ -67,6 +67,13 @@ playButton.addEventListener('click', () => {
   stats.energy = clamp(stats.energy - 15);
   stats.cleanliness = clamp(stats.cleanliness - 10);
 
+  // Play animation: quick bounce
+  pet.style.transition = 'transform 0.3s ease';
+  pet.style.transform = 'translateY(-20px)';
+  setTimeout(() => {
+    pet.style.transform = 'translateY(0)';
+  }, 300);
+
   updateStatsDisplay();
 });
 
@@ -78,12 +85,39 @@ restButton.addEventListener('click', () => {
   stats.happiness = clamp(stats.happiness + 5);
   stats.hunger = clamp(stats.hunger - 5);
 
+  // Rest animation: fade out and in
+  pet.style.transition = 'opacity 2s ease';
+  pet.style.opacity = '0.5';
+  setTimeout(() => {
+    pet.style.opacity = '1';
+  }, 2000);
+
   updateStatsDisplay();
 });
 
 // CLEAN
 cleanButton.addEventListener('click', () => {
   status.textContent = 'Royal spa time! 🛁👑✨';
+
+  // Glow effect
+  pet.style.transition = 'box-shadow 0.5s ease';
+  pet.style.boxShadow = '0 0 15px 5px pink';
+  setTimeout(() => {
+    pet.style.boxShadow = 'none';
+  }, 500);
+
+  // Quick shake
+  pet.style.transition = 'transform 0.1s';
+  pet.style.transform = 'translateX(-10px)';
+  setTimeout(() => {
+    pet.style.transform = 'translateX(10px)';
+  }, 100);
+  setTimeout(() => {
+    pet.style.transform = 'translateX(0)';
+  }, 200);
+
+  const cleanSound = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
+  cleanSound.play();
 
   stats.cleanliness = clamp(stats.cleanliness + 40);
   stats.happiness = clamp(stats.happiness + 5);
@@ -92,7 +126,7 @@ cleanButton.addEventListener('click', () => {
 });
 
 setInterval(() => {
-  // Decrease stats
+  // Decrease stats over time
   stats.hunger = clamp(stats.hunger - 5);
   stats.energy = clamp(stats.energy - 3);
   stats.cleanliness = clamp(stats.cleanliness - 2);
@@ -129,7 +163,6 @@ setInterval(() => {
 
   status.textContent = mood;
 
-  // Update UI
   updateStatsDisplay();
 }, 10000); // Every 10 seconds
 

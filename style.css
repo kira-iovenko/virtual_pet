@@ -17,6 +17,9 @@ body {
   border: 5px solid #d97fbf; /* soft pink border */
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(217, 127, 191, 0.7);
+  transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
+  position: relative;
+  overflow: visible;
 }
 
 .button-row {
@@ -58,7 +61,8 @@ body {
   margin-top: 1rem;
   text-align: center;
   font-size: 1.2rem;
-  color: white;
+  color: #4a004a; /* changed from white to deep purple for better readability */
   backdrop-filter: blur(4px);
   box-shadow: 0 4px 10px rgba(74, 0, 74, 0.2);
 }
+
