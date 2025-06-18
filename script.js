@@ -6,6 +6,16 @@ const playButton = document.getElementById('playButton');
 const restButton = document.getElementById('restButton');
 const cleanButton = document.getElementById('cleanButton');
 
+// Sound setup
+const crunchSound = new Audio('https://www.soundjay.com/human/sounds/crunching-1.mp3');
+crunchSound.volume = 0.8;
+const toySound = new Audio("https://www.soundjay.com/misc/sounds/squeeze-toy-2.mp3");
+toySound.volume = 0.8;
+const chimeSound = new Audio("https://www.soundjay.com/misc/sounds/magic-chime-01.mp3");
+chimeSound.volume = 0.8;
+const waterSound = new Audio("https://www.soundjay.com/nature/sounds/water-splash-2.mp3");
+waterSound.volume = 0.8;
+
 let scale = 1;
 
 let stats = {
@@ -30,6 +40,14 @@ function updateStatsDisplay() {
 
 // FEED
 feedButton.addEventListener('click', () => {
+  crunchSound.currentTime = 0;
+  crunchSound.play();
+
+  // Stop audio after 600ms
+  setTimeout(() => {
+    crunchSound.pause();
+  }, 600);
+
   status.textContent = 'Queenie von Floof is enjoying her royal treat... 👑🍬';
   scale += 0.1;
 
@@ -61,13 +79,14 @@ feedButton.addEventListener('click', () => {
 // PLAY
 playButton.addEventListener('click', () => {
   status.textContent = 'Queenie is chasing her jewel-encrusted tennis ball! 🎾💎';
+  toySound.currentTime = 0;
+  toySound.play();
 
   stats.happiness = clamp(stats.happiness + 20);
   stats.hunger = clamp(stats.hunger - 10);
   stats.energy = clamp(stats.energy - 15);
   stats.cleanliness = clamp(stats.cleanliness - 10);
 
-  // Play animation: quick bounce
   pet.style.transition = 'transform 0.3s ease';
   pet.style.transform = 'translateY(-20px)';
   setTimeout(() => {
@@ -81,11 +100,15 @@ playButton.addEventListener('click', () => {
 restButton.addEventListener('click', () => {
   status.textContent = 'Queenie von Floof is napping on silk cushions... 💤🛏️';
 
+  setTimeout(() => {
+    chimeSound.currentTime = 0;
+    chimeSound.play();
+  }, 1500);
+
   stats.energy = clamp(stats.energy + 30);
   stats.happiness = clamp(stats.happiness + 5);
   stats.hunger = clamp(stats.hunger - 5);
 
-  // Rest animation: fade out and in
   pet.style.transition = 'opacity 2s ease';
   pet.style.opacity = '0.5';
   setTimeout(() => {
@@ -99,14 +122,17 @@ restButton.addEventListener('click', () => {
 cleanButton.addEventListener('click', () => {
   status.textContent = 'Royal spa time! 🛁👑✨';
 
-  // Glow effect
+  waterSound.currentTime = 0;
+  waterSound.play();
+
+  // Glow
   pet.style.transition = 'box-shadow 0.5s ease';
   pet.style.boxShadow = '0 0 15px 5px pink';
   setTimeout(() => {
     pet.style.boxShadow = 'none';
   }, 500);
 
-  // Quick shake
+  // Shake
   pet.style.transition = 'transform 0.1s';
   pet.style.transform = 'translateX(-10px)';
   setTimeout(() => {
@@ -116,9 +142,6 @@ cleanButton.addEventListener('click', () => {
     pet.style.transform = 'translateX(0)';
   }, 200);
 
-  const cleanSound = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
-  cleanSound.play();
-
   stats.cleanliness = clamp(stats.cleanliness + 40);
   stats.happiness = clamp(stats.happiness + 5);
 
@@ -126,13 +149,11 @@ cleanButton.addEventListener('click', () => {
 });
 
 setInterval(() => {
-  // Decrease stats over time
   stats.hunger = clamp(stats.hunger - 5);
   stats.energy = clamp(stats.energy - 3);
   stats.cleanliness = clamp(stats.cleanliness - 2);
   stats.happiness = clamp(stats.happiness - 4);
 
-  // Health reacts to low conditions
   if (
     stats.hunger <= 20 ||
     stats.energy <= 20 ||
@@ -141,10 +162,9 @@ setInterval(() => {
   ) {
     stats.health = clamp(stats.health - 5);
   } else if (stats.health < 100) {
-    stats.health = clamp(stats.health + 1); // slow recovery
+    stats.health = clamp(stats.health + 1);
   }
 
-  // Mood messages
   let mood = "";
 
   if (stats.health <= 20) {
@@ -162,9 +182,7 @@ setInterval(() => {
   }
 
   status.textContent = mood;
-
   updateStatsDisplay();
-}, 10000); // Every 10 seconds
+}, 10000);
 
-// Init display
 updateStatsDisplay();
