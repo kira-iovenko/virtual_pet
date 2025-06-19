@@ -17,6 +17,13 @@ Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — ins
 
 ---
 
+## 🚀 Live Preview
+
+**Play it now:**  
+🔗 [https://kira-iovenko.github.io/virtual_pet/](https://kira-iovenko.github.io/virtual_pet/)
+
+---
+
 ## 🛠️ Tech Stack
 
 - **HTML/CSS/JavaScript**
@@ -59,13 +66,7 @@ Each action plays a unique sound:
 
 ## 🙌 Author
 
-Made with love by [@kira-iovenko](https://github.com/kira-iovenko)
-
----
-
-## 📸 Preview
-
-You can try it live if deployed! (Or open `index.html` locally.)
+Made with ❤️ by [@kira-iovenko](https://github.com/kira-iovenko)
 
 ---
 
