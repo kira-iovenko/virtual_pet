@@ -1,3 +1,5 @@
+![Banner](https://github.com/kira-iovenko/virtual_pet/raw/main/banner.png)
+
 # 👑 Queenie von Floof: A Royal Virtual Pet
 
 Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — inspired by amagotchis but with a royal twist! Feed her snacks, play fetch, give her spa days, and tuck er in for beauty sleep — all while keeping her happy, healthy, and fabulous.
