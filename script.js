@@ -24,7 +24,9 @@ let stats = {
   hunger: 100,
   happiness: 100,
   energy: 100,
-  cleanliness: 100
+  cleanliness: 100,
+  xp: 0,
+  level: 1
 };
 
 function clamp(value) {
@@ -32,12 +34,26 @@ function clamp(value) {
 }
 
 function updateStatsDisplay() {
+  const xpNeeded = stats.level * 100; // dynamically calculate XP needed
+
   document.getElementById('health').textContent = stats.health;
   document.getElementById('hunger').textContent = stats.hunger;
   document.getElementById('happiness').textContent = stats.happiness;
   document.getElementById('energy').textContent = stats.energy;
   document.getElementById('cleanliness').textContent = stats.cleanliness;
+
+  document.getElementById('xp').textContent = stats.xp;
+  document.getElementById('level').textContent = stats.level;
+
+  // Show the dynamic XP max needed to level up
+  document.getElementById('xp-max').textContent = xpNeeded;
+
+  // Update progress bar width as percentage
+  const xpPercent = (stats.xp / xpNeeded) * 100;
+  const xpBar = document.getElementById('xp-bar');
+  xpBar.style.width = `${xpPercent}%`;
 }
+
 
 function updateNeedIcons() {
   iconContainer.innerHTML = "";
@@ -62,6 +78,33 @@ function updateNeedIcons() {
   });
 }
 
+function addXP(amount) {
+  stats.xp += amount;
+
+  let xpNeeded = stats.level * 100;
+
+  while (stats.xp >= xpNeeded) {
+    stats.xp -= xpNeeded;
+    stats.level++;
+    xpNeeded = stats.level * 100;
+
+    alert(`🎉 Queenie leveled up! She is now Level ${stats.level}! 👑`);
+
+    const xpContainer = document.getElementById('xp-bar-container');
+
+    xpContainer.classList.remove('level-up');
+    void xpContainer.offsetWidth; // Trigger reflow to restart animation
+    xpContainer.classList.add('level-up');
+
+    xpContainer.addEventListener('animationend', () => {
+      xpContainer.classList.remove('level-up');
+    }, { once: true });
+  }
+
+  updateStatsDisplay();
+}
+
+
 // FEED
 feedButton.addEventListener('click', () => {
   crunchSound.currentTime = 0;
@@ -74,6 +117,7 @@ feedButton.addEventListener('click', () => {
   stats.hunger = clamp(stats.hunger + 25);
   stats.happiness = clamp(stats.happiness + 5);
   stats.cleanliness = clamp(stats.cleanliness - 5);
+  addXP(10);
 
   if (scale >= 1.2 && scale < 1.3) {
     alert('Queenie: "Hmm... quite satisfying. 💅🍰"');
@@ -107,6 +151,7 @@ playButton.addEventListener('click', () => {
   stats.hunger = clamp(stats.hunger - 10);
   stats.energy = clamp(stats.energy - 15);
   stats.cleanliness = clamp(stats.cleanliness - 10);
+  addXP(12);
 
   pet.style.transition = 'transform 0.3s ease';
   pet.style.transform = 'translateY(-20px)';
@@ -127,6 +172,7 @@ restButton.addEventListener('click', () => {
   stats.energy = clamp(stats.energy + 30);
   stats.happiness = clamp(stats.happiness + 5);
   stats.hunger = clamp(stats.hunger - 5);
+  addXP(8);
 
   pet.style.transition = 'opacity 2s ease';
   pet.style.opacity = '0.5';
@@ -153,6 +199,7 @@ cleanButton.addEventListener('click', () => {
 
   stats.cleanliness = clamp(stats.cleanliness + 40);
   stats.happiness = clamp(stats.happiness + 5);
+  addXP(6);
 
   updateStatsDisplay();
   updateNeedIcons();
