@@ -33,17 +33,20 @@ body {
 }
 
 #pet {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 300px;
   height: auto;
   margin-bottom: 20px;
-  border: 5px solid #d97fbf;
-  /* soft pink border */
+  border: 5px solid #d97fbf; /* soft pink border */
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(217, 127, 191, 0.7);
   transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
   position: relative;
   overflow: visible;
 }
+
 
 .button-row {
   display: flex;
@@ -136,9 +139,11 @@ body {
   0% {
     box-shadow: 0 0 10px 3px #ffb6ff;
   }
+
   50% {
     box-shadow: 0 0 20px 8px #ff80ff;
   }
+
   100% {
     box-shadow: 0 0 10px 3px #ffb6ff;
   }
@@ -149,4 +154,54 @@ body {
   /* Make sure the container has some border or background to show glow better */
   border-radius: 12px;
   border: 2px solid #ff80ff;
+}
+
+/* LOGIN + MENU STYLING */
+#login-screen,
+#menu-screen {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 6px 12px rgba(74, 0, 74, 0.3);
+  backdrop-filter: blur(5px);
+  text-align: center;
+  margin-top: 2rem;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#login-screen h2,
+#menu-screen h2 {
+  color: #6b004d;
+}
+
+#usernameInput {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 2px 6px rgba(74, 0, 74, 0.2);
+  background-color: #fff0f7;
+  color: #4a004a;
+  font-family: 'Georgia', serif;
+}
+
+#login-status {
+  font-style: italic;
+  color: #6b004d;
+  font-size: 0.95rem;
+}
+
+/* Make sure all screens transition nicely */
+#login-screen,
+#menu-screen,
+#game-screen {
+  transition: opacity 0.4s ease;
 }

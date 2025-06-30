@@ -11,34 +11,58 @@
 <body>
   <h1>🐶 Meet Queenie von Floof!</h1>
 
-  <div id="need-icons"></div>
-  <img
-    src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzE3cTBtcG9peGRkY25taGZudTZ4M3Jza3VwZzA1c3MzM245d3JsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2pBlamRY1qD8OyUgfX/giphy.gif"
-    alt="virtual dog" id="pet" />
-
-  <div class="button-row">
-    <button id="feedButton">Feed Snack 🍪</button>
-    <button id="playButton">Play 🎾</button>
-    <button id="restButton">Sleep 💤</button>
-    <button id="cleanButton">Clean 🛁</button>
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen">
+    <h2>Welcome!</h2>
+    <input type="text" id="usernameInput" placeholder="Enter your username" />
+    <div class="button-row">
+      <button id="signInBtn">Sign In</button>
+      <button id="signUpBtn">Sign Up</button>
+    </div>
+    <p id="login-status"></p>
   </div>
 
-  <div id="stats">
-    <p>❤️ Health: <span id="health">100</span></p>
-    <p>🍗 Hunger: <span id="hunger">100</span></p>
-    <p>💖 Happiness: <span id="happiness">100</span></p>
-    <p>⚡️ Energy: <span id="energy">100</span></p>
-    <p>🧼 Cleanliness: <span id="cleanliness">100</span></p>
-    <p>🌟 Level: <span id="level">1</span></p>
-    <p>📈 XP: <span id="xp">0</span>/<span id="xp-max">100</span></p>
-
-    <!-- XP Progress Bar -->
-    <div id="xp-bar-container">
-      <div id="xp-bar"></div>
+  <!-- GAME MENU SCREEN -->
+  <div id="menu-screen" style="display: none;">
+    <h2>Hello, <span id="current-user"></span>!</h2>
+    <div class="button-row">
+      <button id="newGameBtn">Start New Game</button>
+      <button id="loadGameBtn">Load Game</button>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
 
-  <p id="status">Queenie von Floof is waiting...</p>
+  <!-- GAME SCREEN -->
+  <div id="game-screen" style="display: none;">
+    <div id="need-icons"></div>
+    <img
+      src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYzE3cTBtcG9peGRkY25taGZudTZ4M3Jza3VwZzA1c3MzM245d3JsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2pBlamRY1qD8OyUgfX/giphy.gif"
+      alt="virtual dog" id="pet" />
+
+    <div class="button-row">
+      <button id="feedButton">Feed Snack 🍪</button>
+      <button id="playButton">Play 🎾</button>
+      <button id="restButton">Sleep 💤</button>
+      <button id="cleanButton">Clean 🛁</button>
+    </div>
+
+    <div id="stats">
+      <p>❤️ Health: <span id="health">100</span></p>
+      <p>🍗 Hunger: <span id="hunger">100</span></p>
+      <p>💖 Happiness: <span id="happiness">100</span></p>
+      <p>⚡️ Energy: <span id="energy">100</span></p>
+      <p>🧼 Cleanliness: <span id="cleanliness">100</span></p>
+      <p>🌟 Level: <span id="level">1</span></p>
+      <p>📈 XP: <span id="xp">0</span>/<span id="xp-max">100</span></p>
+
+      <!-- XP Progress Bar -->
+      <div id="xp-bar-container">
+        <div id="xp-bar"></div>
+      </div>
+    </div>
+
+    <p id="status">Queenie von Floof is waiting...</p>
+  </div>
 
   <script src="script.js"></script>
 </body>

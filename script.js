@@ -102,6 +102,7 @@ function addXP(amount) {
   }
 
   updateStatsDisplay();
+  saveProgress();
 }
 
 
@@ -139,6 +140,7 @@ feedButton.addEventListener('click', () => {
 
   updateStatsDisplay();
   updateNeedIcons();
+  saveProgress();
 });
 
 // PLAY
@@ -159,6 +161,7 @@ playButton.addEventListener('click', () => {
 
   updateStatsDisplay();
   updateNeedIcons();
+  saveProgress();
 });
 
 // REST
@@ -180,6 +183,7 @@ restButton.addEventListener('click', () => {
 
   updateStatsDisplay();
   updateNeedIcons();
+  saveProgress();
 });
 
 // CLEAN
@@ -203,6 +207,7 @@ cleanButton.addEventListener('click', () => {
 
   updateStatsDisplay();
   updateNeedIcons();
+  saveProgress();
 });
 
 // Mood & stat decay
@@ -243,6 +248,125 @@ setInterval(() => {
   updateStatsDisplay();
   updateNeedIcons();
 }, 10000);
+
+// === USER LOGIN / SIGNUP SYSTEM ===
+
+let currentUser = null;
+
+const loginScreen = document.getElementById('login-screen');
+const menuScreen = document.getElementById('menu-screen');
+const gameScreen = document.getElementById('game-screen');
+
+const usernameInput = document.getElementById('usernameInput');
+const signInBtn = document.getElementById('signInBtn');
+const signUpBtn = document.getElementById('signUpBtn');
+const loginStatus = document.getElementById('login-status');
+
+const currentUserDisplay = document.getElementById('current-user');
+const newGameBtn = document.getElementById('newGameBtn');
+const loadGameBtn = document.getElementById('loadGameBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+
+// Helper function to switch visible screens
+function showScreen(screen) {
+  loginScreen.style.display = 'none';
+  menuScreen.style.display = 'none';
+  gameScreen.style.display = 'none';
+
+  screen.style.display = 'block';
+}
+
+// Show login on page load
+window.addEventListener('DOMContentLoaded', () => {
+  showScreen(loginScreen);
+});
+
+// SIGN UP: create new user if not exists
+signUpBtn.addEventListener('click', () => {
+  const username = usernameInput.value.trim();
+  if (!username) {
+    loginStatus.textContent = 'Please enter a username.';
+    return;
+  }
+  if (localStorage.getItem(`queenie-save-${username}`)) {
+    loginStatus.textContent = 'Username already exists. Please sign in.';
+    return;
+  }
+  const defaultStats = {
+    health: 100,
+    hunger: 100,
+    happiness: 100,
+    energy: 100,
+    cleanliness: 100,
+    xp: 0,
+    level: 1
+  };
+  localStorage.setItem(`queenie-save-${username}`, JSON.stringify(defaultStats));
+  loginStatus.textContent = 'User created! You can now sign in.';
+});
+
+// SIGN IN: load user if exists, go to menu
+signInBtn.addEventListener('click', () => {
+  const username = usernameInput.value.trim();
+  if (!username) {
+    loginStatus.textContent = 'Please enter a username.';
+    return;
+  }
+  const savedData = localStorage.getItem(`queenie-save-${username}`);
+  if (!savedData) {
+    loginStatus.textContent = 'User not found. Please sign up.';
+    return;
+  }
+  currentUser = username;
+  currentUserDisplay.textContent = currentUser;
+  loginStatus.textContent = '';
+  loadGameBtn.disabled = false; // can load game
+  showScreen(menuScreen);
+});
+
+// NEW GAME: reset stats & enter game screen
+newGameBtn.addEventListener('click', () => {
+  stats = {
+    health: 100,
+    hunger: 100,
+    happiness: 100,
+    energy: 100,
+    cleanliness: 100,
+    xp: 0,
+    level: 1
+  };
+  updateStatsDisplay();
+  updateNeedIcons();
+  showScreen(gameScreen);
+  saveProgress();
+});
+
+// LOAD GAME: load stats & enter game screen
+loadGameBtn.addEventListener('click', () => {
+  const savedData = localStorage.getItem(`queenie-save-${currentUser}`);
+  if (!savedData) {
+    alert('No saved game found!');
+    return;
+  }
+  stats = JSON.parse(savedData);
+  updateStatsDisplay();
+  updateNeedIcons();
+  showScreen(gameScreen);
+});
+
+// LOGOUT: clear current user and go back to login screen
+logoutBtn.addEventListener('click', () => {
+  currentUser = null;
+  stats = null;
+  showScreen(loginScreen);
+});
+
+// Save progress function, call after stats changes
+function saveProgress() {
+  if (!currentUser || !stats) return;
+  localStorage.setItem(`queenie-save-${currentUser}`, JSON.stringify(stats));
+}
+
 
 updateStatsDisplay();
 updateNeedIcons();
