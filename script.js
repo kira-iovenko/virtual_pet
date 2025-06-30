@@ -335,24 +335,31 @@ newGameBtn.addEventListener('click', () => {
     xp: 0,
     level: 1
   };
+  showScreen(gameScreen);
+  document.getElementById('backToMenuBtn').style.display = 'inline-block'; // Show button
   updateStatsDisplay();
   updateNeedIcons();
-  showScreen(gameScreen);
   saveProgress();
 });
 
 // LOAD GAME: load stats & enter game screen
 loadGameBtn.addEventListener('click', () => {
   const savedData = localStorage.getItem(`queenie-save-${currentUser}`);
-  if (!savedData) {
-    alert('No saved game found!');
-    return;
-  }
+  if (!savedData) return alert('No saved game found!');
+
   stats = JSON.parse(savedData);
+  showScreen(gameScreen);
+  document.getElementById('backToMenuBtn').style.display = 'inline-block'; // Show button
   updateStatsDisplay();
   updateNeedIcons();
-  showScreen(gameScreen);
 });
+
+// Back to Main Menu
+backToMenuBtn.addEventListener('click', () => {
+  showScreen(menuScreen);
+  backToMenuBtn.style.display = 'none'; // Hide button again
+});
+
 
 // LOGOUT: clear current user and go back to login screen
 logoutBtn.addEventListener('click', () => {
