@@ -1,4 +1,5 @@
 const pet = document.getElementById('pet');
+pet.style.transform = 'scale(1.2)'; // still works
 const status = document.getElementById('status');
 const iconContainer = document.getElementById('need-icons');
 

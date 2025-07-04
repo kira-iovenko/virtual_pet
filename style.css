@@ -78,19 +78,16 @@ body {
 
 #pet {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 300px;
-  height: auto;
-  margin-bottom: 20px;
-  border: 5px solid #d97fbf;
-  /* soft pink border */
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(217, 127, 191, 0.7);
-  transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.5s ease;
-  position: relative;
-  overflow: visible;
+  margin: 2rem auto 2rem;
+  /* adds bottom space before the buttons */
+  width: 200px;
+  max-width: 90vw;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(255, 192, 203, 0.8);
 }
+
 
 
 .button-row {
