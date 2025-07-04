@@ -34,6 +34,26 @@ body {
   box-shadow: 0 6px 14px rgba(180, 107, 176, 0.6);
 }
 
+#muteMusicBtn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 999;
+  padding: 8px 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #d97fbf;
+  color: white;
+  border: 2px solid #f7a9da;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+#muteMusicBtn:hover {
+  background-color: #f7a9da;
+}
 
 #need-icons {
   display: flex;

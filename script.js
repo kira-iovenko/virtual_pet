@@ -17,6 +17,60 @@ chimeSound.volume = 0.8;
 const waterSound = new Audio("https://www.soundjay.com/nature/sounds/water-splash-2.mp3");
 waterSound.volume = 0.8;
 
+const bgMusic = new Audio("https://www.bensound.com/bensound-music/bensound-littleidea.mp3");
+bgMusic.loop = true;
+bgMusic.volume = 0.4;
+// bgMusic.preload = 'auto';
+
+const menuMusic = new Audio("https://files.catbox.moe/g7rf72.mp3");
+menuMusic.loop = true;
+menuMusic.volume = 0.3;
+// menuMusic.preload = 'auto';
+
+const muteMusicBtn = document.getElementById('muteMusicBtn');
+let isMuted = false;
+
+// Function to update mute state on both audios and button text
+function updateMuteState() {
+  menuMusic.muted = isMuted;
+  bgMusic.muted = isMuted;
+  muteMusicBtn.textContent = isMuted ? "🔈 Unmute Music" : "🔇 Mute Music";
+}
+
+// Mute button toggles mute state for both musics
+muteMusicBtn.addEventListener('click', () => {
+  isMuted = !isMuted;
+  updateMuteState();
+});
+
+// Play menu music after user interaction (autoplay often blocked)
+let hasInteracted = false;
+function enableMusicPlayback() {
+  if (hasInteracted) return;
+  hasInteracted = true;
+
+  // Attempt to prime both tracks to make sure they're allowed to play
+  menuMusic.load();
+  bgMusic.load();
+
+  // 🎵 Play menu music if not muted
+  if (!isMuted) {
+    menuMusic.play().catch(() => {
+      console.log("Menu music autoplay blocked");
+    });
+  }
+
+  // Only need to do this once
+  document.removeEventListener('click', enableMusicPlayback);
+  document.removeEventListener('keydown', enableMusicPlayback);
+}
+
+document.addEventListener('click', enableMusicPlayback);
+document.addEventListener('keydown', enableMusicPlayback);
+
+// Initially update mute button text
+updateMuteState();
+
 let scale = 1;
 
 let stats = {
@@ -217,17 +271,18 @@ setInterval(() => {
   stats.cleanliness = clamp(stats.cleanliness - 2);
   stats.happiness = clamp(stats.happiness - 4);
 
-  if (
-    stats.hunger <= 60 ||
-    stats.energy <= 60 ||
-    stats.cleanliness <= 60 ||
-    stats.happiness <= 60
-  ) {
-    stats.health = clamp(stats.health - 5);
-  } else if (stats.health < 100) {
-    stats.health = clamp(stats.health + 1);
-  }
+  const averageNeed = (
+    stats.hunger +
+    stats.energy +
+    stats.cleanliness +
+    stats.happiness
+  ) / 4;
 
+  if (averageNeed < 60) {
+    stats.health = clamp(stats.health - 3); // gentler drop
+  } else if (stats.health < 100) {
+    stats.health = clamp(stats.health + 5); // slow recovery
+  }
   let mood = "";
 
   if (stats.health <= 20) {
@@ -279,6 +334,9 @@ function showScreen(screen) {
 // Show login on page load
 window.addEventListener('DOMContentLoaded', () => {
   showScreen(loginScreen);
+  // menuMusic.play().catch(() => {
+  //   console.log("Autoplay blocked for menu music.");
+  // });
 });
 
 // SIGN UP: create new user if not exists
@@ -336,7 +394,17 @@ newGameBtn.addEventListener('click', () => {
     level: 1
   };
   showScreen(gameScreen);
-  document.getElementById('backToMenuBtn').style.display = 'inline-block'; // Show button
+  document.getElementById('backToMenuBtn').style.display = 'inline-block';
+
+  menuMusic.pause();
+  menuMusic.currentTime = 0;
+
+  if (!isMuted) {
+    bgMusic.play().catch(() => console.log("Autoplay blocked"));
+  } else {
+    bgMusic.pause();
+  }
+
   updateStatsDisplay();
   updateNeedIcons();
   saveProgress();
@@ -346,10 +414,11 @@ newGameBtn.addEventListener('click', () => {
 loadGameBtn.addEventListener('click', () => {
   const savedData = localStorage.getItem(`queenie-save-${currentUser}`);
   if (!savedData) return alert('No saved game found!');
-
   stats = JSON.parse(savedData);
   showScreen(gameScreen);
-  document.getElementById('backToMenuBtn').style.display = 'inline-block'; // Show button
+  document.getElementById('backToMenuBtn').style.display = 'inline-block';
+  menuMusic.pause();
+  if (!isMuted) bgMusic.play().catch(() => console.log("Autoplay blocked"));
   updateStatsDisplay();
   updateNeedIcons();
 });
@@ -358,6 +427,8 @@ loadGameBtn.addEventListener('click', () => {
 backToMenuBtn.addEventListener('click', () => {
   showScreen(menuScreen);
   backToMenuBtn.style.display = 'none'; // Hide button again
+  bgMusic.pause();
+  if (!isMuted) menuMusic.play().catch(() => console.log("Autoplay blocked"));
 });
 
 
@@ -365,6 +436,8 @@ backToMenuBtn.addEventListener('click', () => {
 logoutBtn.addEventListener('click', () => {
   currentUser = null;
   stats = null;
+  bgMusic.pause();
+  if (!isMuted) menuMusic.play().catch(() => console.log("Autoplay blocked"));
   showScreen(loginScreen);
 });
 
@@ -373,6 +446,25 @@ function saveProgress() {
   if (!currentUser || !stats) return;
   localStorage.setItem(`queenie-save-${currentUser}`, JSON.stringify(stats));
 }
+// let hasInteracted = false;
+
+// function enableMusicPlayback() {
+//   if (hasInteracted) return;
+//   hasInteracted = true;
+
+//   // Start menu music once user interacts
+//   menuMusic.play().catch(() => {
+//     console.log("Autoplay blocked again");
+//   });
+
+//   // Remove the event listener after first interaction
+//   document.removeEventListener('click', enableMusicPlayback);
+//   document.removeEventListener('keydown', enableMusicPlayback);
+// }
+
+// // Wait for first interaction
+// document.addEventListener('click', enableMusicPlayback);
+// document.addEventListener('keydown', enableMusicPlayback);
 
 
 updateStatsDisplay();
