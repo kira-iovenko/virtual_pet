@@ -22,9 +22,9 @@ bgMusic.loop = true;
 bgMusic.volume = 0.4;
 // bgMusic.preload = 'auto';
 
-const menuMusic = new Audio("https://files.catbox.moe/g7rf72.mp3");
+const menuMusic = new Audio("https://audio.jukehost.co.uk/r9J240jfPS1JlNudza8kuSksJzckTP8R");
 menuMusic.loop = true;
-menuMusic.volume = 0.3;
+menuMusic.volume = 0.4;
 // menuMusic.preload = 'auto';
 
 const muteMusicBtn = document.getElementById('muteMusicBtn');
@@ -41,6 +41,19 @@ function updateMuteState() {
 muteMusicBtn.addEventListener('click', () => {
   isMuted = !isMuted;
   updateMuteState();
+
+  if (!isMuted) {
+    // Determine which screen is active and play the correct music
+    if (gameScreen.style.display === 'block') {
+      bgMusic.play().catch(() => console.log("Autoplay blocked for game music"));
+    } else if (menuScreen.style.display === 'block' || loginScreen.style.display === 'block') {
+      menuMusic.play().catch(() => console.log("Autoplay blocked for menu music"));
+    }
+  } else {
+    // Pause both when muting
+    bgMusic.pause();
+    menuMusic.pause();
+  }
 });
 
 // Play menu music after user interaction (autoplay often blocked)
@@ -49,21 +62,14 @@ function enableMusicPlayback() {
   if (hasInteracted) return;
   hasInteracted = true;
 
-  // Attempt to prime both tracks to make sure they're allowed to play
+  // Prime both tracks
   menuMusic.load();
   bgMusic.load();
 
-  // 🎵 Play menu music if not muted
-  if (!isMuted) {
-    menuMusic.play().catch(() => {
-      console.log("Menu music autoplay blocked");
-    });
-  }
-
-  // Only need to do this once
   document.removeEventListener('click', enableMusicPlayback);
   document.removeEventListener('keydown', enableMusicPlayback);
 }
+
 
 document.addEventListener('click', enableMusicPlayback);
 document.addEventListener('keydown', enableMusicPlayback);
@@ -380,6 +386,11 @@ signInBtn.addEventListener('click', () => {
   loginStatus.textContent = '';
   loadGameBtn.disabled = false; // can load game
   showScreen(menuScreen);
+  if (hasInteracted && !isMuted) {
+    menuMusic.play().catch(() => console.log("Menu music autoplay blocked"));
+  }
+  enableMusicPlayback();
+
 });
 
 // NEW GAME: reset stats & enter game screen
