@@ -3,6 +3,9 @@ pet.style.transform = 'scale(1.2)'; // still works
 const status = document.getElementById('status');
 const iconContainer = document.getElementById('need-icons');
 
+const petVideo = document.getElementById('pet');
+const petSource = petVideo.querySelector('source');
+
 const feedButton = document.getElementById('feedButton');
 const playButton = document.getElementById('playButton');
 const restButton = document.getElementById('restButton');
@@ -169,6 +172,24 @@ function addXP(amount) {
 
 // FEED
 feedButton.addEventListener('click', () => {
+
+  // Switch to feeding animation
+  petVideo.pause();
+  petVideo.loop = false;
+  petSource.src = "videos/feed.mp4";
+  petVideo.load();
+  petVideo.play();
+
+  // After feeding finishes, switch back to thriving animation
+  petVideo.onended = () => {
+    petSource.src = "videos/thriving.mp4";
+    petVideo.load();
+    petVideo.loop = true;
+    petVideo.play();
+    petVideo.loop = true;
+    petVideo.onended = null; // Clear to avoid re-triggering
+  };
+
   crunchSound.currentTime = 0;
   crunchSound.play();
   setTimeout(() => crunchSound.pause(), 600);
@@ -192,8 +213,8 @@ feedButton.addEventListener('click', () => {
     scale = 1;
   }
 
-  pet.style.transition = 'transform 0.5s ease';
-  pet.style.transform = `scale(${scale})`;
+  petVideo.style.transition = 'transform 0.5s ease';
+  petVideo.style.transform = `scale(${scale})`;
 
   setTimeout(() => {
     status.textContent = 'Queenie von Floof is feeling majestic! 💖🐾';
@@ -204,8 +225,26 @@ feedButton.addEventListener('click', () => {
   saveProgress();
 });
 
+
 // PLAY
 playButton.addEventListener('click', () => {
+  // Switch to play animation
+  petVideo.pause();
+  petVideo.loop = false;
+  petSource.src = "videos/play.mp4";
+  petVideo.load();
+  petVideo.play();
+
+  // After feeding finishes, switch back to thriving animation
+  petVideo.onended = () => {
+    petSource.src = "videos/thriving.mp4";
+    petVideo.load();
+    petVideo.loop = true;
+    petVideo.play();
+    petVideo.loop = true;
+    petVideo.onended = null; // Clear to avoid re-triggering
+  };
+
   status.textContent = 'Queenie is chasing her jewel-encrusted tennis ball! 🎾💎';
   toySound.currentTime = 0;
   toySound.play();
@@ -227,6 +266,23 @@ playButton.addEventListener('click', () => {
 
 // REST
 restButton.addEventListener('click', () => {
+  // Switch to sleep animation
+  petVideo.pause();
+  petVideo.loop = false;
+  petSource.src = "videos/sleep.mp4";
+  petVideo.load();
+  petVideo.play();
+
+  // After feeding finishes, switch back to thriving animation
+  petVideo.onended = () => {
+    petSource.src = "videos/thriving.mp4";
+    petVideo.load();
+    petVideo.loop = true;
+    petVideo.play();
+    petVideo.loop = true;
+    petVideo.onended = null; // Clear to avoid re-triggering
+  };
+
   status.textContent = 'Queenie von Floof is napping on silk cushions... 💤🛏️';
   setTimeout(() => {
     chimeSound.currentTime = 0;
@@ -238,9 +294,9 @@ restButton.addEventListener('click', () => {
   stats.hunger = clamp(stats.hunger - 5);
   addXP(8);
 
-  pet.style.transition = 'opacity 2s ease';
-  pet.style.opacity = '0.5';
-  setTimeout(() => pet.style.opacity = '1', 2000);
+  // pet.style.transition = 'opacity 2s ease';
+  // pet.style.opacity = '0.5';
+  // setTimeout(() => pet.style.opacity = '1', 2000);
 
   updateStatsDisplay();
   updateNeedIcons();
@@ -249,6 +305,23 @@ restButton.addEventListener('click', () => {
 
 // CLEAN
 cleanButton.addEventListener('click', () => {
+  // Switch to bath animation
+  petVideo.pause();
+  petVideo.loop = false;
+  petSource.src = "videos/bath.mp4";
+  petVideo.load();
+  petVideo.play();
+
+  // After feeding finishes, switch back to thriving animation
+  petVideo.onended = () => {
+    petSource.src = "videos/thriving.mp4";
+    petVideo.load();
+    petVideo.loop = true;
+    petVideo.play();
+    petVideo.loop = true;
+    petVideo.onended = null; // Clear to avoid re-triggering
+  };
+
   status.textContent = 'Royal spa time! 🛁👑✨';
   waterSound.currentTime = 0;
   waterSound.play();
