@@ -11,6 +11,9 @@ const playButton = document.getElementById('playButton');
 const restButton = document.getElementById('restButton');
 const cleanButton = document.getElementById('cleanButton');
 
+let lastActionTime = 0;
+const actionCooldown = 2000;
+
 // Define default stats once to reuse
 const defaultStats = {
   health: 100,
@@ -123,6 +126,16 @@ function updateStatsDisplay() {
   xpBar.style.width = `${xpPercent}%`;
 }
 
+//Cooldown 
+function canPerformAction() {
+  const now = Date.now();
+  if (now - lastActionTime < actionCooldown) {
+    status.textContent = 'Queenie needs a moment before her next royal activity... ⏳';
+    return false;
+  }
+  lastActionTime = now;
+  return true;
+}
 
 function updateNeedIcons() {
   iconContainer.innerHTML = "";
@@ -177,6 +190,7 @@ function addXP(amount) {
 
 // FEED
 feedButton.addEventListener('click', () => {
+  if (!canPerformAction()) return;
 
   // Switch to feeding animation
   petVideo.pause();
@@ -233,6 +247,7 @@ feedButton.addEventListener('click', () => {
 
 // PLAY
 playButton.addEventListener('click', () => {
+  if (!canPerformAction()) return;
   // Switch to play animation
   petVideo.pause();
   petVideo.loop = false;
@@ -271,6 +286,7 @@ playButton.addEventListener('click', () => {
 
 // REST
 restButton.addEventListener('click', () => {
+  if (!canPerformAction()) return;
   // Switch to sleep animation
   petVideo.pause();
   petVideo.loop = false;
@@ -310,6 +326,7 @@ restButton.addEventListener('click', () => {
 
 // CLEAN
 cleanButton.addEventListener('click', () => {
+  if (!canPerformAction()) return;
   // Switch to bath animation
   petVideo.pause();
   petVideo.loop = false;
