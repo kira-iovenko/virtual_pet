@@ -11,6 +11,20 @@ const playButton = document.getElementById('playButton');
 const restButton = document.getElementById('restButton');
 const cleanButton = document.getElementById('cleanButton');
 
+// Define default stats once to reuse
+const defaultStats = {
+  health: 100,
+  hunger: 100,
+  happiness: 100,
+  energy: 100,
+  cleanliness: 100,
+  xp: 0,
+  level: 1
+};
+
+// Start with a copy of default stats
+let stats = { ...defaultStats };
+
 // Sound setup
 const crunchSound = new Audio('https://www.soundjay.com/human/sounds/crunching-1.mp3');
 crunchSound.volume = 0.8;
@@ -83,16 +97,7 @@ updateMuteState();
 
 let scale = 1;
 
-let stats = {
-  health: 100,
-  hunger: 100,
-  happiness: 100,
-  energy: 100,
-  cleanliness: 100,
-  xp: 0,
-  level: 1
-};
-
+stats = { ...defaultStats };
 function clamp(value) {
   return Math.max(0, Math.min(100, value));
 }
@@ -430,18 +435,10 @@ signUpBtn.addEventListener('click', () => {
     loginStatus.textContent = 'Username already exists. Please sign in.';
     return;
   }
-  const defaultStats = {
-    health: 100,
-    hunger: 100,
-    happiness: 100,
-    energy: 100,
-    cleanliness: 100,
-    xp: 0,
-    level: 1
-  };
   localStorage.setItem(`queenie-save-${username}`, JSON.stringify(defaultStats));
   loginStatus.textContent = 'User created! You can now sign in.';
 });
+
 
 // SIGN IN: load user if exists, go to menu
 signInBtn.addEventListener('click', () => {
@@ -469,15 +466,8 @@ signInBtn.addEventListener('click', () => {
 
 // NEW GAME: reset stats & enter game screen
 newGameBtn.addEventListener('click', () => {
-  stats = {
-    health: 100,
-    hunger: 100,
-    happiness: 100,
-    energy: 100,
-    cleanliness: 100,
-    xp: 0,
-    level: 1
-  };
+  stats = { ...defaultStats }; // Reset to fresh stats
+
   showScreen(gameScreen);
   document.getElementById('backToMenuBtn').style.display = 'inline-block';
 
@@ -494,6 +484,7 @@ newGameBtn.addEventListener('click', () => {
   updateNeedIcons();
   saveProgress();
 });
+
 
 // LOAD GAME: load stats & enter game screen
 loadGameBtn.addEventListener('click', () => {
@@ -519,38 +510,23 @@ backToMenuBtn.addEventListener('click', () => {
 
 // LOGOUT: clear current user and go back to login screen
 logoutBtn.addEventListener('click', () => {
+  saveProgress();
   currentUser = null;
-  stats = null;
+  stats = { ...defaultStats }; // Safely reset stats
   bgMusic.pause();
   if (!isMuted) menuMusic.play().catch(() => console.log("Autoplay blocked"));
   showScreen(loginScreen);
 });
-
 // Save progress function, call after stats changes
 function saveProgress() {
   if (!currentUser || !stats) return;
   localStorage.setItem(`queenie-save-${currentUser}`, JSON.stringify(stats));
 }
-// let hasInteracted = false;
-
-// function enableMusicPlayback() {
-//   if (hasInteracted) return;
-//   hasInteracted = true;
-
-//   // Start menu music once user interacts
-//   menuMusic.play().catch(() => {
-//     console.log("Autoplay blocked again");
-//   });
-
-//   // Remove the event listener after first interaction
-//   document.removeEventListener('click', enableMusicPlayback);
-//   document.removeEventListener('keydown', enableMusicPlayback);
-// }
-
-// // Wait for first interaction
-// document.addEventListener('click', enableMusicPlayback);
-// document.addEventListener('keydown', enableMusicPlayback);
-
 
 updateStatsDisplay();
 updateNeedIcons();
+// Autosave when closing tab
+window.addEventListener('beforeunload', () => {
+  saveProgress();
+})
+
