@@ -142,20 +142,27 @@ function updateNeedIcons() {
 
   const needs = [];
 
-  if (stats.hunger <= 60) needs.push("need-food.png");
-  if (stats.cleanliness <= 60) needs.push("need-bath.png");
-  if (stats.energy <= 60) needs.push("need-sleep.png");
-  if (stats.happiness <= 60) needs.push("need-play.png");
+  if (stats.hunger <= 60) needs.push({ src: "images/need-food.png", alt: "Hungry" });
+  if (stats.cleanliness <= 60) needs.push({ src: "images/need-bath.png", alt: "Dirty" });
+  if (stats.energy <= 60) needs.push({ src: "images/need-sleep.png", alt: "Tired" });
+  if (stats.happiness <= 60) needs.push({ src: "images/need-play.png", alt: "Unhappy" });
 
   if (needs.length === 0) {
-    needs.push("thriving.png");
+    needs.push({ src: "images/thriving.png", alt: "Thriving" });
   }
 
-  needs.forEach(filename => {
+  needs.forEach(({ src, alt }) => {
     const img = document.createElement("img");
-    img.src = `images/${filename}`;
-    img.alt = filename.split('.')[0];
-    img.classList.add("need-icon");
+    img.src = src;
+    img.alt = alt;
+    img.title = alt;
+    img.style.width = "42px";
+    img.style.height = "42px";
+    img.style.borderRadius = "50%";
+    img.style.backgroundColor = "rgba(255, 255, 255, 0.6)";
+    img.style.padding = "5px";
+    img.style.boxShadow = "0 0 8px rgba(74, 0, 74, 0.3)";
+    img.style.transition = "transform 0.3s ease";
     iconContainer.appendChild(img);
   });
 }

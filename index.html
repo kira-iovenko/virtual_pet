@@ -9,9 +9,11 @@
 </head>
 
 <body>
-  <button id="backToMenuBtn" class="top-menu-button" style="display: none;">← Main Menu</button>
-  <button id="muteMusicBtn">🔇 Mute Music</button>
-  <h1>🐶 Meet Queenie von Floof!</h1>
+  <!-- Top Buttons -->
+  <div class="top-bar">
+    <button id="muteMusicBtn">🔇 Mute Music</button>
+    <button id="backToMenuBtn" class="top-menu-button" style="display: none;">← Main Menu</button>
+  </div>
 
   <!-- LOGIN SCREEN -->
   <div id="login-screen">
@@ -36,36 +38,45 @@
 
   <!-- GAME SCREEN -->
   <div id="game-screen" style="display: none;">
+    <!-- Header Info -->
+    <div class="pet-header">
+      <h1>👑 Queenie von Floof - Level <span id="level">1</span></h1>
+      <p class="status-message" id="status">Queenie is gracefully thriving ✨</p>
+    </div>
     <div id="need-icons"></div>
-    <video id="pet" autoplay loop muted playsinline>
-      <source src="videos/thriving.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-
-
-    <div class="button-row">
-      <button id="feedButton">Feed Snack 🍪</button>
-      <button id="playButton">Play 🎾</button>
-      <button id="restButton">Sleep 💤</button>
-      <button id="cleanButton">Clean 🛁</button>
+    <!-- Pet Image -->
+    <div class="pet-video-wrapper">
+      <video id="pet" autoplay loop muted playsinline>
+        <source src="videos/thriving.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
 
-    <div id="stats">
-      <p>❤️ Health: <span id="health">100</span></p>
-      <p>🍗 Hunger: <span id="hunger">100</span></p>
-      <p>💖 Happiness: <span id="happiness">100</span></p>
-      <p>⚡️ Energy: <span id="energy">100</span></p>
-      <p>🧼 Cleanliness: <span id="cleanliness">100</span></p>
-      <p>🌟 Level: <span id="level">1</span></p>
-      <p>📈 XP: <span id="xp">0</span>/<span id="xp-max">100</span></p>
+  
+    <!-- Action Buttons -->
+    <div class="action-buttons-grid">
+      <button id="feedButton">🍪 Feed Snack</button>
+      <button id="playButton">🎾 Play</button>
+      <button id="restButton">💤 Sleep</button>
+      <button id="cleanButton">🛁 Clean</button>
+    </div>
 
-      <!-- XP Progress Bar -->
+    <!-- Stats -->
+    <div class="stats-panel">
+      <div class="stat"><span>❤️</span> <span id="health">100</span></div>
+      <div class="stat"><span>🍗</span> <span id="hunger">100</span></div>
+      <div class="stat"><span>💖</span> <span id="happiness">100</span></div>
+      <div class="stat"><span>⚡️</span> <span id="energy">100</span></div>
+      <div class="stat"><span>🧼</span> <span id="cleanliness">100</span></div>
+    </div>
+
+    <!-- XP Bar -->
+    <div class="xp-bar-wrapper">
+      <label>📈 XP: <span id="xp">0</span> / <span id="xp-max">100</span></label>
       <div id="xp-bar-container">
         <div id="xp-bar"></div>
       </div>
     </div>
-
-    <p id="status">Queenie von Floof is waiting...</p>
   </div>
 
   <script src="script.js"></script>
