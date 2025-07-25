@@ -305,3 +305,38 @@ body {
 #game-screen {
   transition: opacity 0.4s ease;
 }
+/* Toggle button */
+#widgetToggle {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background-color: #ffcc00;
+  border-radius: 8px 0 0 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 1001;
+  transition: background-color 0.3s;
+}
+#widgetToggle:hover {
+  background-color: #ffdb4d;
+}
+
+/* Widget panel */
+#rightWidget {
+  position: fixed;
+  top: 0;
+  right: -260px; /* Hide it off-screen initially */
+  width: 260px;
+  height: 100%;
+  background-color: #fffbe6;
+  box-shadow: -3px 0 6px rgba(0,0,0,0.2);
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 1000;
+  transition: right 0.4s ease;
+}
+#rightWidget.open {
+  right: 0;
+}

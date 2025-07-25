@@ -431,6 +431,18 @@ const newGameBtn = document.getElementById('newGameBtn');
 const loadGameBtn = document.getElementById('loadGameBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
+// === MINI-GAME WIDGET TOGGLE ===
+const toggleBtn = document.getElementById('widgetToggle');
+const widget = document.getElementById('rightWidget');
+
+if (toggleBtn && widget) {
+  toggleBtn.addEventListener('click', () => {
+    widget.classList.toggle('open');
+    toggleBtn.textContent = widget.classList.contains('open') ? '◀' : '▶';
+  });
+}
+
+
 // Helper function to switch visible screens
 function showScreen(screen) {
   loginScreen.style.display = 'none';
