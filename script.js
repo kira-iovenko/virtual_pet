@@ -441,6 +441,12 @@ if (toggleBtn && widget) {
     toggleBtn.textContent = widget.classList.contains('open') ? '◀' : '▶';
   });
 }
+function openMiniGame(gameName) {
+  if (gameName === 'catcher') {
+    alert("Opening Catcher Game! (Placeholder for now)");
+    // In future: Load the game screen, open a modal, or navigate to catcher.html
+  }
+}
 
 
 // Helper function to switch visible screens
@@ -454,10 +460,15 @@ function showScreen(screen) {
 
 // Show login on page load
 window.addEventListener('DOMContentLoaded', () => {
-  showScreen(loginScreen);
-  // menuMusic.play().catch(() => {
-  //   console.log("Autoplay blocked for menu music.");
-  // });
+  const savedUser = localStorage.getItem('queenie-current-user');
+  if (savedUser && localStorage.getItem(`queenie-save-${savedUser}`)) {
+    currentUser = savedUser;
+    currentUserDisplay.textContent = currentUser;
+    showScreen(menuScreen);
+    if (!isMuted) menuMusic.play().catch(() => console.log("Autoplay blocked"));
+  } else {
+    showScreen(loginScreen);
+  }
 });
 
 // SIGN UP: create new user if not exists
@@ -489,6 +500,7 @@ signInBtn.addEventListener('click', () => {
     return;
   }
   currentUser = username;
+  localStorage.setItem('queenie-current-user', username);
   currentUserDisplay.textContent = currentUser;
   loginStatus.textContent = '';
   loadGameBtn.disabled = false; // can load game
@@ -548,7 +560,8 @@ backToMenuBtn.addEventListener('click', () => {
 logoutBtn.addEventListener('click', () => {
   saveProgress();
   currentUser = null;
-  stats = { ...defaultStats }; // Safely reset stats
+  localStorage.removeItem('queenie-current-user'); // <== ADDED
+  stats = { ...defaultStats };
   bgMusic.pause();
   if (!isMuted) menuMusic.play().catch(() => console.log("Autoplay blocked"));
   showScreen(loginScreen);

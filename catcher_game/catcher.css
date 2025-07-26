@@ -1,0 +1,49 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #fff0f5;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #d14c8b;
+  margin-top: 20px;
+}
+
+#game-container {
+  position: relative;
+  margin: 20px auto;
+  width: 400px;
+  height: 600px;
+  background: linear-gradient(to top, #ffeef6, #ffffff);
+  border: 4px solid pink;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+#queenie {
+  position: absolute;
+  bottom: 10px;
+  left: 170px;
+  width: 60px;
+  height: 60px;
+  background-image: url('../images/thriving.png'); /* Make sure this path is correct */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.falling-item {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  backgro5und-repeat: no-repeat;
+  top: 0;
+}
+
+.info-bar {
+  margin-top: 10px;
+  font-size: 18px;
+}
