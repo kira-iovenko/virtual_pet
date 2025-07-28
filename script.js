@@ -461,15 +461,67 @@ function showScreen(screen) {
 // Show login on page load
 window.addEventListener('DOMContentLoaded', () => {
   const savedUser = localStorage.getItem('queenie-current-user');
-  if (savedUser && localStorage.getItem(`queenie-save-${savedUser}`)) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const overlay = document.getElementById('musicResumeOverlay');
+
+  if (savedUser) {
     currentUser = savedUser;
     currentUserDisplay.textContent = currentUser;
-    showScreen(menuScreen);
-    if (!isMuted) menuMusic.play().catch(() => console.log("Autoplay blocked"));
+    loadGameBtn.disabled = false;
+
+    // Always set up the loadGameBtn listener ONCE
+    loadGameBtn.addEventListener('click', () => {
+      const savedData = localStorage.getItem(`queenie-save-${currentUser}`);
+      if (!savedData) return alert('No saved game found!');
+      stats = JSON.parse(savedData);
+      showScreen(gameScreen);
+      document.getElementById('backToMenuBtn').style.display = 'inline-block';
+      menuMusic.pause();
+      if (!isMuted) bgMusic.play().catch(() => console.log("Autoplay blocked"));
+      updateStatsDisplay();
+      updateNeedIcons();
+    });
+
+    if (urlParams.get('fromMiniGame') === 'true') {
+      // Returning from mini-game: go directly to game screen
+      showScreen(gameScreen);
+      document.getElementById('backToMenuBtn').style.display = 'inline-block';
+      menuMusic.pause();
+
+      const savedData = localStorage.getItem(`queenie-save-${currentUser}`);
+      if (savedData) {
+        stats = JSON.parse(savedData);
+        updateStatsDisplay();
+        updateNeedIcons();
+      }
+
+      if (!isMuted) {
+        // Show overlay to force user interaction for music playback
+        overlay.style.display = 'flex';
+
+        function resumeMusicOnClick() {
+          bgMusic.play().catch(() => console.log("Autoplay blocked"));
+          overlay.style.display = 'none';
+          window.removeEventListener('click', resumeMusicOnClick);
+        }
+
+        window.addEventListener('click', resumeMusicOnClick);
+      }
+
+    } else {
+      // Normal app start: show menu screen
+      showScreen(menuScreen);
+      if (hasInteracted && !isMuted) {
+        menuMusic.play().catch(() => console.log("Menu music autoplay blocked"));
+      }
+    }
+
   } else {
+    // No logged in user, show login screen
     showScreen(loginScreen);
   }
 });
+
 
 // SIGN UP: create new user if not exists
 signUpBtn.addEventListener('click', () => {

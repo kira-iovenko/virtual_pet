@@ -1,49 +1,88 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fff0f5;
-  text-align: center;
-  margin: 0;
-  padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #fff0f5;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
-  color: #d14c8b;
-  margin-top: 20px;
+    color: #d14c8b;
+    margin-top: 20px;
 }
 
 #game-container {
-  position: relative;
-  margin: 20px auto;
-  width: 400px;
-  height: 600px;
-  background: linear-gradient(to top, #ffeef6, #ffffff);
-  border: 4px solid pink;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+    margin: 20px auto;
+    width: 400px;
+    height: 600px;
+    background: linear-gradient(to top, #ffeef6, #ffffff);
+    border: 4px solid pink;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 #queenie {
-  position: absolute;
-  bottom: 10px;
-  left: 170px;
-  width: 60px;
-  height: 60px;
-  background-image: url('../images/thriving.png'); /* Make sure this path is correct */
-  background-size: contain;
-  background-repeat: no-repeat;
+    position: absolute;
+    bottom: 10px;
+    left: 170px;
+    width: 80px;
+    height: 80px;
+    background-image: url('head.png');
+    /* Make sure this path is correct */
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .falling-item {
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  background-size: contain;
-  backgro5und-repeat: no-repeat;
-  top: 0;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    /* Scale to fit */
+    background-repeat: no-repeat;
+    /* Prevent tiling */
+    background-position: center;
+    /* Center the image */
 }
 
 .info-bar {
-  margin-top: 10px;
-  font-size: 18px;
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+#backToGameBtn {
+    background-color: #8e44ad;
+    /* royal purple */
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    /* smaller padding */
+    border: none;
+    border-radius: 20px;
+    /* slightly smaller radius */
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(142, 68, 173, 0.6);
+    /* smaller shadow */
+    transition: background-color 0.3s ease, transform 0.15s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.9rem;
+    /* smaller font */
+    user-select: none;
+    z-index: 10;
+    /* make sure it’s above other elements */
+}
+
+#backToGameBtn:hover {
+    background-color: #6c3483;
+    transform: scale(1.02);
+    /* smaller scale */
+    box-shadow: 0 4px 8px rgba(108, 52, 131, 0.8);
+}
+
+#backToGameBtn:active {
+    background-color: #5b2c6f;
+    transform: scale(0.97);
+    box-shadow: 0 2px 5px rgba(91, 44, 111, 0.7);
 }

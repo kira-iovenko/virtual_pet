@@ -3,28 +3,55 @@ const queenie = document.getElementById('queenie');
 let score = 0;
 let queenieX = 170;
 
-// Move Queenie with arrow keys
+let keysPressed = {};
+let moveSpeed = 4;
+
+let spawnRate = 800;
+let spawnIntervalId;
+
+// Track when arrow keys are pressed or released
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft' && queenieX > 0) {
-    queenieX -= 20;
-  } else if (e.key === 'ArrowRight' && queenieX < 340) {
-    queenieX += 20;
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    keysPressed[e.key] = true;
   }
-  queenie.style.left = queenieX + 'px';
 });
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    keysPressed[e.key] = false;
+  }
+});
+
+// Smooth movement loop
+function moveQueenie() {
+  if (keysPressed['ArrowLeft'] && queenieX > 0) {
+    queenieX -= moveSpeed;
+  }
+  if (keysPressed['ArrowRight'] && queenieX < 340) {
+    queenieX += moveSpeed;
+  }
+
+  queenie.style.left = queenieX + 'px';
+  requestAnimationFrame(moveQueenie);
+}
+moveQueenie(); // Start the loop
+
+// Start or restart item spawning
+function startSpawningItems() {
+  if (spawnIntervalId) clearInterval(spawnIntervalId);
+  spawnIntervalId = setInterval(spawnItem, spawnRate);
+}
 
 // Spawn falling items
 function spawnItem() {
   const item = document.createElement('div');
   item.classList.add('falling-item');
 
-  // Randomly choose good or bad
   const isGood = Math.random() < 0.7;
   item.classList.add(isGood ? 'good' : 'bad');
   item.style.backgroundImage = isGood
-  ? "url('../images/need-bath.png')"
-  : "url('../images/need-food.png')";
-
+    ? "url('treat.png')"
+    : "url('mud.png')";
 
   item.style.left = Math.floor(Math.random() * 360) + 'px';
   game.appendChild(item);
@@ -54,14 +81,18 @@ function checkCollision(item, isGood, fallInterval) {
   ) {
     clearInterval(fallInterval);
     item.remove();
-    if (isGood) {
-      score++;
-    } else {
-      score = Math.max(0, score - 1);
-    }
+
+    const prevScore = score;
+    score = isGood ? score + 1 : Math.max(0, score - 1);
     document.getElementById('score').textContent = score;
+
+    // Every 10 points, increase difficulty
+    if (Math.floor(score / 10) > Math.floor(prevScore / 10)) {
+      spawnRate = Math.max(150, spawnRate - 100); // Cap at 150ms
+      startSpawningItems(); // Restart with new faster rate
+    }
   }
 }
 
-// Game loop
-setInterval(spawnItem, 1000);
+
+startSpawningItems(); // Begin the game
