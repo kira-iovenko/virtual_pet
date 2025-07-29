@@ -13,34 +13,39 @@ let score = 0;
 let lives = 3;
 let queenieX = 170;
 let keysPressed = {};
-let moveSpeed = 4;
+let moveSpeed = 3;
 let spawnRate = 800;
 let fallSpeed = 4;
 
 let spawnIntervalId;
 let difficultyTimer;
+let gameActive = false; // <-- New flag to track if game is running
 
-// Track arrow key presses
+// Track arrow key presses ONLY when game is active
 document.addEventListener('keydown', (e) => {
+    if (!gameActive) return; 
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
         keysPressed[e.key] = true;
     }
 });
 document.addEventListener('keyup', (e) => {
+    if (!gameActive) return; 
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
         keysPressed[e.key] = false;
     }
 });
 
-// Smooth movement loop
+// Smooth movement loop only moves when gameActive is true
 function moveQueenie() {
-    if (keysPressed['ArrowLeft'] && queenieX > 0) {
-        queenieX -= moveSpeed;
+    if (gameActive) {
+        if (keysPressed['ArrowLeft'] && queenieX > 0) {
+            queenieX -= moveSpeed;
+        }
+        if (keysPressed['ArrowRight'] && queenieX < 340) {
+            queenieX += moveSpeed;
+        }
+        queenie.style.left = queenieX + 'px';
     }
-    if (keysPressed['ArrowRight'] && queenieX < 340) {
-        queenieX += moveSpeed;
-    }
-    queenie.style.left = queenieX + 'px';
     requestAnimationFrame(moveQueenie);
 }
 
@@ -66,10 +71,11 @@ function startDifficultyIncrease() {
 
 // Spawn item
 function spawnItem() {
+    if (!gameActive) return; // Stop spawning if game inactive
     const item = document.createElement('div');
     item.classList.add('falling-item');
 
-    const isGood = Math.random() < 0.7;
+    const isGood = Math.random() < 0.5;
     item.classList.add(isGood ? 'good' : 'bad');
     item.style.backgroundImage = isGood
         ? "url('treat.png')"
@@ -80,6 +86,11 @@ function spawnItem() {
 
     let pos = 0;
     const fallInterval = setInterval(() => {
+        if (!gameActive) {
+            clearInterval(fallInterval);
+            item.remove();
+            return;
+        }
         if (pos >= 540) {
             clearInterval(fallInterval);
             item.remove();
@@ -121,11 +132,12 @@ function checkCollision(item, isGood, fallInterval) {
 
 // Game Over
 function endGame() {
+    gameActive = false;  // <-- Disable player control
     clearInterval(spawnIntervalId);
     clearInterval(difficultyTimer);
     catcherMusic.pause();
 
-    // Hide game elements if needed
+    // Remove all falling items
     document.querySelectorAll('.falling-item').forEach(item => item.remove());
 
     // Show Game Over screen
@@ -135,27 +147,36 @@ function endGame() {
 // Start button logic
 startGameBtn.addEventListener('click', () => {
     startOverlay.style.display = 'none';
-    catcherMusic.play().catch(() => console.log('Autoplay blocked'));
+    gameActive = true;   // <-- Enable player control
     updateLivesDisplay();
     moveQueenie();
+    catcherMusic.play().catch(() => console.log('Autoplay blocked'));
     startSpawningItems();
     startDifficultyIncrease();
 });
 
+// Retry button logic
 document.getElementById('retryBtn').addEventListener('click', () => {
     // Reset game state
     lives = 3;
     score = 0;
+    queenieX = 170;
+    keysPressed = {};
     scoreEl.textContent = score;
     spawnRate = 800;
-    fallSpeed = 3;
+    fallSpeed = 4;
     updateLivesDisplay();
-    document.getElementById('game-over-overlay').style.display = 'none';
 
-    // Restart game
+    document.getElementById('game-over-overlay').style.display = 'none';
+    queenie.style.left = queenieX + 'px'; // Reset Queenie position
+
+    gameActive = true; // <-- Re-enable player control
+
     catcherMusic.currentTime = 0;
     catcherMusic.play().catch(() => console.log('Autoplay blocked'));
     startSpawningItems();
     startDifficultyIncrease();
 });
 
+// Start the movement loop once so it runs continuously, but movement only happens if gameActive
+moveQueenie();
