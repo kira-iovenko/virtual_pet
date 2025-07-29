@@ -6,12 +6,19 @@ const game = document.getElementById('game-container');
 const queenie = document.getElementById('queenie');
 const startOverlay = document.getElementById('start-overlay');
 const startGameBtn = document.getElementById('startGameBtn');
+const livesEl = document.getElementById('lives-container');
+const scoreEl = document.getElementById('score');
+
 let score = 0;
+let lives = 3;
 let queenieX = 170;
 let keysPressed = {};
 let moveSpeed = 4;
 let spawnRate = 800;
+let fallSpeed = 4;
+
 let spawnIntervalId;
+let difficultyTimer;
 
 // Track arrow key presses
 document.addEventListener('keydown', (e) => {
@@ -37,25 +44,41 @@ function moveQueenie() {
     requestAnimationFrame(moveQueenie);
 }
 
+// Lives display
+function updateLivesDisplay() {
+    livesEl.textContent = '❤️'.repeat(lives);
+}
+
 // Start or restart item spawning
 function startSpawningItems() {
     if (spawnIntervalId) clearInterval(spawnIntervalId);
     spawnIntervalId = setInterval(spawnItem, spawnRate);
 }
 
+// Increase difficulty over time
+function startDifficultyIncrease() {
+    difficultyTimer = setInterval(() => {
+        spawnRate = Math.max(200, spawnRate - 50);
+        fallSpeed = Math.min(10, fallSpeed + 0.3);
+        startSpawningItems(); // Apply new spawn rate
+    }, 7000); // Every 7 seconds
+}
+
+// Spawn item
 function spawnItem() {
     const item = document.createElement('div');
     item.classList.add('falling-item');
+
     const isGood = Math.random() < 0.7;
     item.classList.add(isGood ? 'good' : 'bad');
     item.style.backgroundImage = isGood
         ? "url('treat.png')"
         : "url('mud.png')";
     item.style.left = Math.floor(Math.random() * 360) + 'px';
+    item.style.top = '0px';
     game.appendChild(item);
 
     let pos = 0;
-    const fallSpeed = 3;
     const fallInterval = setInterval(() => {
         if (pos >= 540) {
             clearInterval(fallInterval);
@@ -68,9 +91,11 @@ function spawnItem() {
     }, 20);
 }
 
+// Check for collision
 function checkCollision(item, isGood, fallInterval) {
     const itemRect = item.getBoundingClientRect();
     const queenieRect = queenie.getBoundingClientRect();
+
     if (
         itemRect.bottom >= queenieRect.top &&
         itemRect.left < queenieRect.right &&
@@ -78,20 +103,59 @@ function checkCollision(item, isGood, fallInterval) {
     ) {
         clearInterval(fallInterval);
         item.remove();
-        const prevScore = score;
-        score = isGood ? score + 1 : Math.max(0, score - 1);
-        document.getElementById('score').textContent = score;
-        if (Math.floor(score / 10) > Math.floor(prevScore / 10)) {
-            spawnRate = Math.max(150, spawnRate - 100);
-            startSpawningItems();
+
+        if (isGood) {
+            score++;
+        } else {
+            lives--;
+            updateLivesDisplay();
+            if (lives <= 0) {
+                endGame();
+                return;
+            }
         }
+
+        scoreEl.textContent = score;
     }
+}
+
+// Game Over
+function endGame() {
+    clearInterval(spawnIntervalId);
+    clearInterval(difficultyTimer);
+    catcherMusic.pause();
+
+    // Hide game elements if needed
+    document.querySelectorAll('.falling-item').forEach(item => item.remove());
+
+    // Show Game Over screen
+    document.getElementById('game-over-overlay').style.display = 'flex';
 }
 
 // Start button logic
 startGameBtn.addEventListener('click', () => {
-    startOverlay.style.display = 'none';        // Hide the overlay
+    startOverlay.style.display = 'none';
     catcherMusic.play().catch(() => console.log('Autoplay blocked'));
-    moveQueenie();                              // Start movement
-    startSpawningItems();                       // Start game
+    updateLivesDisplay();
+    moveQueenie();
+    startSpawningItems();
+    startDifficultyIncrease();
 });
+
+document.getElementById('retryBtn').addEventListener('click', () => {
+    // Reset game state
+    lives = 3;
+    score = 0;
+    scoreEl.textContent = score;
+    spawnRate = 800;
+    fallSpeed = 3;
+    updateLivesDisplay();
+    document.getElementById('game-over-overlay').style.display = 'none';
+
+    // Restart game
+    catcherMusic.currentTime = 0;
+    catcherMusic.play().catch(() => console.log('Autoplay blocked'));
+    startSpawningItems();
+    startDifficultyIncrease();
+});
+

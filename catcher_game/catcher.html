@@ -10,6 +10,10 @@
 
 <body>
     <h1>🎀 Queenie's Catcher Game</h1>
+    <div class="status-bar">
+        <div class="score-box">Score: <span id="score">0</span></div>
+        <div class="lives-box" id="lives-container">❤️❤️❤️</div>
+    </div>
 
     <div id="game-container">
         <div id="queenie"></div>
@@ -22,8 +26,17 @@
         </div>
     </div>
 
+    <div id="game-over-overlay" style="display: none;">
+        <div class="game-over-box">
+            <h2>Try again, loyal subject?</h2>
+            <div class="game-over-buttons">
+                <button id="retryBtn">Retry</button>
+                <button onclick="returnToQueenie()">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
     <div class="info-bar">
-        <span>Score: <span id="score">0</span></span>
         <button id="backToGameBtn" onclick="returnToQueenie()">Back to Game</button>
 
         <script>

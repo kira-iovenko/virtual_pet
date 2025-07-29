@@ -365,3 +365,64 @@ body {
 .minigame-icon:hover img {
   transform: scale(1.05);
 }
+
+#game-over-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 240, 250, 0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.game-over-box {
+    text-align: center;
+    background: linear-gradient(to bottom right, #fff0f5, #f9e0ff);
+    padding: 40px 50px;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(209, 76, 139, 0.2);
+    border: 2px dashed #eec9f5;
+    max-width: 320px;
+}
+
+.game-over-box h2 {
+    font-family: 'Georgia', serif;
+    font-size: 1.6rem;
+    color: #d14c8b;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px #fff;
+}
+
+.game-over-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+#retryBtn,
+.game-over-buttons button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #d14c8b, #f3b2e7);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(209, 76, 139, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.4s ease;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.3px;
+}
+
+#retryBtn:hover,
+.game-over-buttons button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(209, 76, 139, 0.5);
+    background: linear-gradient(to right, #c03b7e, #eba3db);
+}
