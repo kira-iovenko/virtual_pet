@@ -38,6 +38,9 @@ body {
   box-shadow: 0 4px 10px rgba(217, 127, 191, 0.4);
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  /* 👇 this brings it inward from the right */
+  margin-right: 20px;
 }
 
 #backToMenuBtn:hover {
@@ -85,7 +88,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-   margin: 2rem 0 2.5rem 0; /* reduce bottom margin to tighten spacing slightly */
+  margin: 2rem 0 2.5rem 0;
+  /* reduce bottom margin to tighten spacing slightly */
 }
 
 #pet {
@@ -103,7 +107,8 @@ body {
 .action-buttons-grid {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap; /* allows wrapping on small screens */
+  flex-wrap: wrap;
+  /* allows wrapping on small screens */
   gap: 1rem;
   max-width: 700px;
   margin: 1.5rem auto;
@@ -191,7 +196,8 @@ body {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin: 1.5rem 0; /* Add top & bottom margin to push away from video */
+  margin: 1.5rem 0;
+  /* Add top & bottom margin to push away from video */
   margin: 1rem 0;
 }
 
@@ -305,6 +311,7 @@ body {
 #game-screen {
   transition: opacity 0.4s ease;
 }
+
 /* Toggle button */
 #widgetToggle {
   position: fixed;
@@ -312,13 +319,18 @@ body {
   right: 0;
   transform: translateY(-50%);
   background-color: #ffcc00;
-  border-radius: 8px 0 0 8px;
-  padding: 8px 10px;
-  cursor: pointer;
+  border-radius: 10px 0 0 10px;
+  padding: 12px 16px;
+  font-size: 1.3rem;
   font-weight: bold;
+  cursor: pointer;
   z-index: 1001;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
+
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.15);
 }
+
+
 #widgetToggle:hover {
   background-color: #ffdb4d;
 }
@@ -327,38 +339,55 @@ body {
 #rightWidget {
   position: fixed;
   top: 0;
-  right: -260px; /* Hide it off-screen initially */
+  right: -260px;
+  /* Hidden off-screen */
   width: 260px;
   height: 100%;
   background-color: #fffbe6;
-  box-shadow: -3px 0 6px rgba(0,0,0,0.2);
+  box-shadow: -3px 0 6px rgba(0, 0, 0, 0.2);
   padding: 20px;
   box-sizing: border-box;
   z-index: 1000;
   transition: right 0.4s ease;
 }
+
 #rightWidget.open {
   right: 0;
 }
+
+/* 🧁 Mini-Games title styling */
+#rightWidget h3 {
+  text-align: center;
+  font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+  color: #d14c8b;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+  text-shadow: 1px 1px #fff;
+}
+
+/* 🎮 Game list container */
 #miniGamesList {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content: center;
 }
 
+/* 🌟 Individual mini-game item */
 .minigame-icon {
   width: 100px;
   text-align: center;
   cursor: pointer;
 }
 
+/* 🖼️ Game icon image */
 .minigame-icon img {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 2px solid #ffc0cb;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease;
 }
 
@@ -366,63 +395,11 @@ body {
   transform: scale(1.05);
 }
 
-#game-over-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 240, 250, 0.65);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.game-over-box {
-    text-align: center;
-    background: linear-gradient(to bottom right, #fff0f5, #f9e0ff);
-    padding: 40px 50px;
-    border-radius: 18px;
-    box-shadow: 0 8px 24px rgba(209, 76, 139, 0.2);
-    border: 2px dashed #eec9f5;
-    max-width: 320px;
-}
-
-.game-over-box h2 {
-    font-family: 'Georgia', serif;
-    font-size: 1.6rem;
-    color: #d14c8b;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px #fff;
-}
-
-.game-over-buttons {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-}
-
-#retryBtn,
-.game-over-buttons button {
-    font-size: 1rem;
-    padding: 10px 20px;
-    background: linear-gradient(to right, #d14c8b, #f3b2e7);
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 25px;
-    box-shadow: 0 4px 12px rgba(209, 76, 139, 0.4);
-    transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.4s ease;
-    cursor: pointer;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    letter-spacing: 0.3px;
-}
-
-#retryBtn:hover,
-.game-over-buttons button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(209, 76, 139, 0.5);
-    background: linear-gradient(to right, #c03b7e, #eba3db);
+/* ✏️ Game label text */
+.minigame-icon p {
+  margin-top: 6px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.95rem;
+  color: #b45288;
+  font-weight: bold;
 }
