@@ -32,6 +32,13 @@ h1 {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
+.start-box h2 {
+    font-family: 'Georgia', serif;
+    font-size: 1.6rem;
+    color: #d14c8b;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px #fff;
+}
 #lives-container {
     display: flex;
     align-items: center;
@@ -309,3 +316,4 @@ h1 {
         margin-top: 12px;
     }
 }
+

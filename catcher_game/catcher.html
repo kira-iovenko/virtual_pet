@@ -39,12 +39,17 @@
 
 
     <div id="start-overlay">
-        <div class="start-box"
+        <div class="start-box"></div>
+        <h2>Ready to Catch?</h2>
+        <button id="startGameBtn">Start Game</button>
+    </div>
+    </div>
+    <div id="start-overlay">
+        <div class="start-box">
             <h2>Ready to Catch?</h2>
             <button id="startGameBtn">Start Game</button>
         </div>
     </div>
-
     <div id="game-over-overlay" style="display: none;">
         <div class="game-over-box">
             <h2>Try again, loyal subject?</h2>
@@ -60,7 +65,7 @@
 
         <script>
             function returnToQueenie() {
-                window.location.hre = '../index.html?fromMiniGame=true';
+                window.location.href = '../index.html?fromMiniGame=true';
             }
         </script>
 
