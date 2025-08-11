@@ -13,10 +13,19 @@ const birdImg = new Image();
 birdImg.src = 'queenie.png';
 
 const pipeImg = new Image();
-pipeImg.src = 'pipe.png';
+pipeImg.src = 'pipe-red.png';
 
 const bgImg = new Image();
-bgImg.src = 'background.png';
+bgImg.src = 'background-pink.png';
+
+const baseImg = new Image();
+baseImg.src = 'base.png';
+
+// Horizontal position for scrolling base
+let baseX = 0;
+
+// Use pipe speed for base scrolling speed to keep synced
+const baseSpeed = 2;
 
 // Function to draw background covering entire canvas with cropping but no distortion
 function drawBackgroundCover(img, ctx, canvasWidth, canvasHeight) {
@@ -42,14 +51,28 @@ function drawBackgroundCover(img, ctx, canvasWidth, canvasHeight) {
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 }
 
+function drawBase() {
+    // Draw two base images side by side for seamless scrolling
+    const baseHeight = 100; // adjust if your base image height differs
+    ctx.drawImage(baseImg, baseX, HEIGHT - baseHeight, WIDTH, baseHeight);
+    ctx.drawImage(baseImg, baseX + WIDTH, HEIGHT - baseHeight, WIDTH, baseHeight);
+}
+
+function updateBase() {
+    baseX -= baseSpeed;
+    if (baseX <= -WIDTH) {
+        baseX = 0;
+    }
+}
+
 // Bird (Queenie) properties
 const bird = {
     x: 50,
     y: HEIGHT / 2 - 40, // start in middle
     width: 50,
     height: 50,
-    gravity: 0.6,
-    lift: -10,
+    gravity: 0.3,
+    lift: -5,
     velocity: 0,
     draw() {
         ctx.drawImage(birdImg, this.x, this.y, this.width, this.height);
@@ -86,10 +109,23 @@ class Pipe {
     }
 
     draw() {
-        // Top pipe
+        // Draw top pipe normally
         ctx.drawImage(pipeImg, this.x, this.top - pipeImg.height, this.width, pipeImg.height);
-        // Bottom pipe
-        ctx.drawImage(pipeImg, this.x, this.top + this.gap, this.width, pipeImg.height);
+
+        // Save context state before flipping
+        ctx.save();
+
+        // Move context to bottom pipe position plus its height (because we flip vertically)
+        ctx.translate(this.x, this.top + this.gap + pipeImg.height);
+
+        // Flip vertically (scale Y by -1)
+        ctx.scale(1, -1);
+
+        // Draw the pipe at (0, 0) in flipped context, with given width and height
+        ctx.drawImage(pipeImg, 0, 0, this.width, pipeImg.height);
+
+        // Restore context to original state
+        ctx.restore();
     }
 
     update() {
@@ -200,6 +236,10 @@ function loop() {
             pipes.splice(i, 1);
         }
     }
+
+    // Update and draw base
+    updateBase();
+    drawBase();
 
     drawScore();
 
