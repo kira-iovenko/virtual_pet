@@ -18,12 +18,36 @@ pipeImg.src = 'pipe.png';
 const bgImg = new Image();
 bgImg.src = 'background.png';
 
+// Function to draw background covering entire canvas with cropping but no distortion
+function drawBackgroundCover(img, ctx, canvasWidth, canvasHeight) {
+    const imgRatio = img.width / img.height;
+    const canvasRatio = canvasWidth / canvasHeight;
+
+    let drawWidth, drawHeight, offsetX, offsetY;
+
+    if (canvasRatio > imgRatio) {
+        // Canvas wider: scale width to canvas, crop top/bottom
+        drawWidth = canvasWidth;
+        drawHeight = canvasWidth / imgRatio;
+        offsetX = 0;
+        offsetY = (canvasHeight - drawHeight) / 2;
+    } else {
+        // Canvas taller: scale height to canvas, crop left/right
+        drawHeight = canvasHeight;
+        drawWidth = canvasHeight * imgRatio;
+        offsetX = (canvasWidth - drawWidth) / 2;
+        offsetY = 0;
+    }
+
+    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+}
+
 // Bird (Queenie) properties
 const bird = {
     x: 50,
     y: HEIGHT / 2 - 40, // start in middle
-    width: 80, // make Queenie big enough
-    height: 80,
+    width: 50,
+    height: 50,
     gravity: 0.6,
     lift: -10,
     velocity: 0,
@@ -55,7 +79,7 @@ const bird = {
 class Pipe {
     constructor() {
         this.top = (Math.random() * HEIGHT) / 3 + 20;
-        this.gap = 140;
+        this.gap = 200;
         this.x = WIDTH;
         this.width = 60;
         this.speed = 2;
@@ -77,12 +101,26 @@ class Pipe {
     }
 
     hits(bird) {
-        if (
-            bird.x + bird.width > this.x &&
-            bird.x < this.x + this.width &&
-            (bird.y < this.top || bird.y + bird.height > this.top + this.gap)
-        ) {
-            return true;
+        const birdLeft = bird.x;
+        const birdRight = bird.x + bird.width;
+        const birdTop = bird.y;
+        const birdBottom = bird.y + bird.height;
+
+        const pipeLeft = this.x;
+        const pipeRight = this.x + this.width;
+        const gapTop = this.top;
+        const gapBottom = this.top + this.gap;
+
+        // Only check when horizontally inside pipe range
+        if (birdRight > pipeLeft && birdLeft < pipeRight) {
+            // Hits top pipe if above gap
+            if (birdTop < gapTop) {
+                return true;
+            }
+            // Hits bottom pipe if below gap
+            if (birdBottom > gapBottom) {
+                return true;
+            }
         }
         return false;
     }
@@ -128,8 +166,8 @@ function drawScore() {
 function loop() {
     frames++;
 
-    // Draw background stretched to canvas
-    ctx.drawImage(bgImg, 0, 0, WIDTH, HEIGHT);
+    // Draw background with cover scaling
+    drawBackgroundCover(bgImg, ctx, WIDTH, HEIGHT);
 
     // Update & draw bird
     if (!gameOver) {
