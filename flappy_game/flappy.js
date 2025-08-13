@@ -27,6 +27,7 @@ baseImg.src = 'base.png';
 let baseX = 0;
 const baseSpeed = 2;
 
+
 function drawBackgroundCover(img, ctx, canvasWidth, canvasHeight) {
     const imgRatio = img.width / img.height;
     const canvasRatio = canvasWidth / canvasHeight;
@@ -79,7 +80,11 @@ const bird = {
         if (this.y + this.height >= HEIGHT) {
             this.y = HEIGHT - this.height;
             this.velocity = 0;
-            gameOver = true;
+            if (!gameOver) {
+                deathSound.currentTime = 0; // restart sound
+                deathSound.play();
+                gameOver = true;
+            }
         }
         if (this.y < 0) {
             this.y = 0;
@@ -140,6 +145,15 @@ class Pipe {
 
 let pipes = [new Pipe()];
 
+// Load jump sound
+const jumpSound = new Audio('https://www.soundjay.com/buttons/sounds/button-6.mp3');
+jumpSound.volume = 0.5; // optional: reduce volume
+
+// Load death sound
+const deathSound = new Audio('https://www.soundjay.com/buttons/sounds/button-4.mp3');
+deathSound.volume = 0.7; // adjust as needed
+
+
 // Controls
 function handleJump() {
     if (!gameStarted) {
@@ -152,11 +166,15 @@ function handleJump() {
     }
 
     if (!gameOver) {
+        // Play jump sound
+        jumpSound.currentTime = 0; // rewind to start so it plays each time
+        jumpSound.play();
         bird.flap();
     } else {
         resetGame();
     }
 }
+
 
 window.addEventListener('keydown', (e) => {
     if (e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar' || e.key === 'ArrowUp') {
@@ -200,8 +218,13 @@ function loop() {
         pipes[i].draw();
 
         if (pipes[i].hits(bird)) {
-            gameOver = true;
+            if (!gameOver) {
+                deathSound.currentTime = 0; // restart sound
+                deathSound.play();
+                gameOver = true;
+            }
         }
+
 
         if (!pipes[i].scored && pipes[i].x + pipes[i].width < bird.x) {
             score++;
