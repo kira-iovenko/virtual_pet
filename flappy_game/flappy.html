@@ -23,6 +23,17 @@
     <div id="score">Score: 0</div>
     <canvas id="gameCanvas" width="400" height="600"></canvas>
 
+     <div class="info-bar">
+        <button id="backToGameBtn" onclick="returnToQueenie()">Back to Game</button>
+
+        <script>
+            function returnToQueenie() {
+                window.location.href = '../index.html?fromMiniGame=true';
+            }
+        </script>
+
+    </div>
+
     <script src="flappy.js"></script>
 </body>
 
