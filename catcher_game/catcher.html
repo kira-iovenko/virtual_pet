@@ -10,6 +10,7 @@
 
 <body>
     <h1>🎀 Queenie's Catcher Game</h1>
+
     <div class="status-bar">
         <div class="score-box">Score: <span id="score">0</span></div>
         <div class="lives-box" id="lives-container">❤️❤️❤️</div>
@@ -37,19 +38,15 @@
         </div>
     </div>
 
-
-    <div id="start-overlay">
-        <div class="start-box"></div>
-        <h2>Ready to Catch?</h2>
-        <button id="startGameBtn">Start Game</button>
-    </div>
-    </div>
+    <!-- START OVERLAY -->
     <div id="start-overlay">
         <div class="start-box">
             <h2>Ready to Catch?</h2>
             <button id="startGameBtn">Start Game</button>
         </div>
     </div>
+
+    <!-- GAME OVER OVERLAY -->
     <div id="game-over-overlay" style="display: none;">
         <div class="game-over-box">
             <h2>Try again, loyal subject?</h2>
@@ -60,16 +57,16 @@
         </div>
     </div>
 
+    <!-- BACK TO GAME BUTTON -->
     <div class="info-bar">
         <button id="backToGameBtn" onclick="returnToQueenie()">Back to Game</button>
-
-        <script>
-            function returnToQueenie() {
-                window.location.href = '../index.html?fromMiniGame=true';
-            }
-        </script>
-
     </div>
+
+    <script>
+        function returnToQueenie() {
+            window.location.href = '../index.html?fromMiniGame=true';
+        }
+    </script>
 
     <script src="catcher.js"></script>
 </body>
