@@ -39,6 +39,7 @@ h1 {
     margin-bottom: 20px;
     text-shadow: 1px 1px #fff;
 }
+
 #lives-container {
     display: flex;
     align-items: center;
@@ -84,32 +85,34 @@ h1 {
 }
 
 #backToGameBtn {
-    background-color: #8e44ad;
+    font-size: 1rem;
+    padding: 10px 22px;
+    background: linear-gradient(to right, #7e57c2, #b39ddb);
     color: white;
     font-weight: bold;
-    padding: 8px 16px;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(126, 87, 194, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.4s ease;
     cursor: pointer;
-    box-shadow: 0 3px 6px rgba(142, 68, 173, 0.6);
-    transition: background-color 0.3s ease, transform 0.15s ease;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 0.9rem;
+    letter-spacing: 0.5px;
     user-select: none;
     z-index: 10;
 }
 
 #backToGameBtn:hover {
-    background-color: #6c3483;
-    transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(108, 52, 131, 0.8);
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(126, 87, 194, 0.5);
+    background: linear-gradient(to right, #6a42b8, #a593d6);
 }
 
 #backToGameBtn:active {
-    background-color: #5b2c6f;
-    transform: scale(0.97);
-    box-shadow: 0 2px 5px rgba(91, 44, 111, 0.7);
+    transform: scale(0.96);
+    box-shadow: 0 2px 6px rgba(91, 44, 111, 0.6);
+    background: linear-gradient(to right, #5b2c6f, #8e7cc3);
 }
+
 
 #start-overlay {
     position: absolute;
@@ -316,4 +319,3 @@ h1 {
         margin-top: 12px;
     }
 }
-
