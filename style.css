@@ -92,7 +92,7 @@ body {
   /* reduce bottom margin to tighten spacing slightly */
 }
 
-#pet {
+.pet-video-wrapper video {
   display: block;
   width: 200px;
   max-width: 90vw;
@@ -101,6 +101,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 15px rgba(255, 192, 203, 0.8);
   margin-bottom: 1.5rem;
+  scale: 1.2;
 }
 
 /* ======= Action Buttons ======= */

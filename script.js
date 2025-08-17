@@ -1,15 +1,24 @@
-const pet = document.getElementById('pet');
-pet.style.transform = 'scale(1.2)'; // still works
+// const thriving = document.getElementById('thriving');
+// thriving.style.transform = 'scale(1.2)'; // still works
 const status = document.getElementById('status');
 const iconContainer = document.getElementById('need-icons');
 
-const petVideo = document.getElementById('pet');
+const petVideo = document.getElementById('thriving');
 const petSource = petVideo.querySelector('source');
 
 const feedButton = document.getElementById('feedButton');
 const playButton = document.getElementById('playButton');
 const restButton = document.getElementById('restButton');
 const cleanButton = document.getElementById('cleanButton');
+
+// All action videos
+const actionVideos = {
+  feed: document.getElementById('feed'),
+  play: document.getElementById('play'),
+  sleep: document.getElementById('sleep'),
+  bath: document.getElementById('bath'),
+  thriving: document.getElementById('thriving')
+};
 
 let lastActionTime = 0;
 const actionCooldown = 2000;
@@ -56,6 +65,51 @@ function updateMuteState() {
   menuMusic.muted = isMuted;
   bgMusic.muted = isMuted;
   muteMusicBtn.textContent = isMuted ? "🔈 Unmute Music" : "🔇 Mute Music";
+}
+
+// Show video in pet-container
+function showVideo(videoId, duration = null) {
+  const videos = document.querySelectorAll('#pet-container video');
+  videos.forEach(v => {
+    if (v.id === videoId) {
+      v.style.display = 'block';
+      v.currentTime = 0;
+      v.play();
+    } else {
+      v.pause();
+      v.style.display = 'none';
+    }
+  });
+
+  // Optional: auto-return to thriving
+  if (duration) {
+    setTimeout(() => showVideo('thriving'), duration);
+  }
+}
+
+// Function to play action video and return to thriving
+function playActionVideo(action) {
+  const thrivingVideo = actionVideos.thriving;
+
+  // Hide all videos first
+  for (let key in actionVideos) {
+    actionVideos[key].style.display = 'none';
+    actionVideos[key].pause();
+  }
+
+  // Show and play the requested video
+  const video = actionVideos[action];
+  video.style.display = 'block';
+  video.currentTime = 0;
+  video.play();
+
+  // When it ends, return to thriving
+  video.onended = () => {
+    video.style.display = 'none';
+    thrivingVideo.style.display = 'block';
+    thrivingVideo.play();
+    video.onended = null;
+  };
 }
 
 // Mute button toggles mute state for both musics
@@ -194,53 +248,24 @@ function addXP(amount) {
   saveProgress();
 }
 
-
 // FEED
 feedButton.addEventListener('click', () => {
   if (!canPerformAction()) return;
 
-  // Switch to feeding animation
-  petVideo.pause();
-  petVideo.loop = false;
-  petSource.src = "videos/feed.mp4";
-  petVideo.load();
-  petVideo.play();
+  // Play feed animation safely
+  playActionVideo('feed');
 
-  // After feeding finishes, switch back to thriving animation
-  petVideo.onended = () => {
-    petSource.src = "videos/thriving.mp4";
-    petVideo.load();
-    petVideo.loop = true;
-    petVideo.play();
-    petVideo.loop = true;
-    petVideo.onended = null; // Clear to avoid re-triggering
-  };
-
+  // Sounds & stats
   crunchSound.currentTime = 0;
   crunchSound.play();
   setTimeout(() => crunchSound.pause(), 600);
 
   status.textContent = 'Queenie von Floof is enjoying her royal treat... 👑🍬';
-  scale += 0.1;
 
   stats.hunger = clamp(stats.hunger + 25);
   stats.happiness = clamp(stats.happiness + 5);
   stats.cleanliness = clamp(stats.cleanliness - 5);
   addXP(10);
-
-  if (scale >= 1.2 && scale < 1.3) {
-    alert('Queenie: "Hmm... quite satisfying. 💅🍰"');
-  } else if (scale >= 1.3 && scale < 1.4) {
-    alert('Queenie: "A lady mustn’t overindulge... ✨"');
-  } else if (scale >= 1.4 && scale < 1.5) {
-    alert('Queenie: "Okay that’s *quite* enough now! 😳👑"');
-  } else if (scale >= 1.5) {
-    alert('Queenie: "I’m full! Resetting my royal floofiness... 💖🐾"');
-    scale = 1;
-  }
-
-  petVideo.style.transition = 'transform 0.5s ease';
-  petVideo.style.transform = `scale(${scale})`;
 
   setTimeout(() => {
     status.textContent = 'Queenie von Floof is feeling majestic! 💖🐾';
@@ -251,27 +276,14 @@ feedButton.addEventListener('click', () => {
   saveProgress();
 });
 
-
 // PLAY
 playButton.addEventListener('click', () => {
   if (!canPerformAction()) return;
-  // Switch to play animation
-  petVideo.pause();
-  petVideo.loop = false;
-  petSource.src = "videos/play.mp4";
-  petVideo.load();
-  petVideo.play();
 
-  // After feeding finishes, switch back to thriving animation
-  petVideo.onended = () => {
-    petSource.src = "videos/thriving.mp4";
-    petVideo.load();
-    petVideo.loop = true;
-    petVideo.play();
-    petVideo.loop = true;
-    petVideo.onended = null; // Clear to avoid re-triggering
-  };
+  // Play the "play" animation safely
+  playActionVideo('play');
 
+  // Stats & sound
   status.textContent = 'Queenie is chasing her jewel-encrusted tennis ball! 🎾💎';
   toySound.currentTime = 0;
   toySound.play();
@@ -282,9 +294,11 @@ playButton.addEventListener('click', () => {
   stats.cleanliness = clamp(stats.cleanliness - 10);
   addXP(12);
 
-  pet.style.transition = 'transform 0.3s ease';
-  pet.style.transform = 'translateY(-20px)';
-  setTimeout(() => pet.style.transform = 'translateY(0)', 300);
+  // Thriving "bounce" animation
+  const thrivingVideo = document.getElementById('thriving');
+  thrivingVideo.style.transition = 'transform 0.3s ease';
+  thrivingVideo.style.transform = 'translateY(-20px)';
+  setTimeout(() => thrivingVideo.style.transform = 'translateY(0)', 300);
 
   updateStatsDisplay();
   updateNeedIcons();
@@ -294,23 +308,11 @@ playButton.addEventListener('click', () => {
 // REST
 restButton.addEventListener('click', () => {
   if (!canPerformAction()) return;
-  // Switch to sleep animation
-  petVideo.pause();
-  petVideo.loop = false;
-  petSource.src = "videos/sleep.mp4";
-  petVideo.load();
-  petVideo.play();
 
-  // After feeding finishes, switch back to thriving animation
-  petVideo.onended = () => {
-    petSource.src = "videos/thriving.mp4";
-    petVideo.load();
-    petVideo.loop = true;
-    petVideo.play();
-    petVideo.loop = true;
-    petVideo.onended = null; // Clear to avoid re-triggering
-  };
+  // Play the "sleep" animation safely
+  playActionVideo('sleep');
 
+  // Stats & sound
   status.textContent = 'Queenie von Floof is napping on silk cushions... 💤🛏️';
   setTimeout(() => {
     chimeSound.currentTime = 0;
@@ -322,10 +324,6 @@ restButton.addEventListener('click', () => {
   stats.hunger = clamp(stats.hunger - 5);
   addXP(8);
 
-  // pet.style.transition = 'opacity 2s ease';
-  // pet.style.opacity = '0.5';
-  // setTimeout(() => pet.style.opacity = '1', 2000);
-
   updateStatsDisplay();
   updateNeedIcons();
   saveProgress();
@@ -334,35 +332,25 @@ restButton.addEventListener('click', () => {
 // CLEAN
 cleanButton.addEventListener('click', () => {
   if (!canPerformAction()) return;
-  // Switch to bath animation
-  petVideo.pause();
-  petVideo.loop = false;
-  petSource.src = "videos/bath.mp4";
-  petVideo.load();
-  petVideo.play();
 
-  // After feeding finishes, switch back to thriving animation
-  petVideo.onended = () => {
-    petSource.src = "videos/thriving.mp4";
-    petVideo.load();
-    petVideo.loop = true;
-    petVideo.play();
-    petVideo.loop = true;
-    petVideo.onended = null; // Clear to avoid re-triggering
-  };
+  // Play the "bath" animation safely
+  playActionVideo('bath');
 
+  // Stats & sounds
   status.textContent = 'Royal spa time! 🛁👑✨';
   waterSound.currentTime = 0;
   waterSound.play();
 
-  pet.style.transition = 'box-shadow 0.5s ease';
-  pet.style.boxShadow = '0 0 15px 5px pink';
-  setTimeout(() => pet.style.boxShadow = 'none', 500);
+  // Thriving animations
+  const thrivingVideo = document.getElementById('thriving');
+  thrivingVideo.style.transition = 'box-shadow 0.5s ease';
+  thrivingVideo.style.boxShadow = '0 0 15px 5px pink';
+  setTimeout(() => thrivingVideo.style.boxShadow = 'none', 500);
 
-  pet.style.transition = 'transform 0.1s';
-  pet.style.transform = 'translateX(-10px)';
-  setTimeout(() => pet.style.transform = 'translateX(10px)', 100);
-  setTimeout(() => pet.style.transform = 'translateX(0)', 200);
+  thrivingVideo.style.transition = 'transform 0.1s';
+  thrivingVideo.style.transform = 'translateX(-10px)';
+  setTimeout(() => thrivingVideo.style.transform = 'translateX(10px)', 100);
+  setTimeout(() => thrivingVideo.style.transform = 'translateX(0)', 200);
 
   stats.cleanliness = clamp(stats.cleanliness + 40);
   stats.happiness = clamp(stats.happiness + 5);
