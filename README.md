@@ -4,7 +4,10 @@
 
 Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — inspired by Tamagotchis but with a royal twist! Feed her snacks, play fetch, give her spa days, and tuck her in for beauty sleep — all while keeping her happy, healthy, and fabulous.
 
-![Queenie Preview](https://media4.giphy.com/media/v1.2lkPTc5MGI3NjExYzE3cTBtcG9peGRkY25taGZudTZ4M3Jza3VwZzA1c3MzM245d3JsZSZlcD12MV9pbnRlcm5hbF9naWZYnlfaWQmY3Q9Zw/2pBlamRY1qD8OyUgfX/giphy.gif)
+<video width="400" autoplay loop muted>
+  <source src="videos/thriving.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ---
 
@@ -58,7 +61,7 @@ Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — ins
   * Generated **art assets** (icons, banners, animations).
   * Created **video loops** for idle/animation states.
   * Generated **code scaffolding & fixes** (UI, gameplay, bug resolution).
-  * Iterative commits documented AI‑assisted workflows.
+  * Iterative commits documented AI-assisted workflows.
 * Sound effects from [SoundJay.com](https://www.soundjay.com/).
 
 ---
