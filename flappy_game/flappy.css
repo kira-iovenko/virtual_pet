@@ -105,7 +105,7 @@ canvas {
 
 #backToGameBtn {
     position: absolute;
-    bottom: 60px;
+    bottom: 100px;
     /* keep positioning */
     left: 50%;
     transform: translateX(-50%);
