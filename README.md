@@ -1,13 +1,10 @@
-![Banner](https://github.com/kira-iovenko/virtual_pet/raw/main/newBanner.png)
+![Banner](https://github.com/kira-iovenko/virtual_pet/raw/main/assets/newBanner.png)
 
 # 👑 Queenie von Floof: A Royal Virtual Pet
 
 Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — inspired by Tamagotchis but with a royal twist! Feed her snacks, play fetch, give her spa days, and tuck her in for beauty sleep — all while keeping her happy, healthy, and fabulous.
 
-<video width="400" autoplay loop muted>
-  <source src="videos/thriving.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Queenie Preview](https://github.com/kira-iovenko/virtual_pet/raw/main/assets/thriving.gif)
 
 ---
 
@@ -102,4 +99,5 @@ Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — ins
 ## 🙌 Author
 
 Made with ❤️ by [@kira-iovenko](https://github.com/kira-iovenko)
+
 👑 *Queenie thanks you for your devotion.* 💖🐾
