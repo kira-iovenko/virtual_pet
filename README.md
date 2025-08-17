@@ -1,8 +1,8 @@
-![Banner](https://github.com/kira-iovenko/virtual_pet/raw/main/banner.png)
+![Banner](https://github.com/kira-iovenko/virtual_pet/raw/main/newBanner.png)
 
 # 👑 Queenie von Floof: A Royal Virtual Pet
 
-Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — inspired by amagotchis but with a royal twist! Feed her snacks, play fetch, give her spa days, and tuck er in for beauty sleep — all while keeping her happy, healthy, and fabulous.
+Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — inspired by Tamagotchis but with a royal twist! Feed her snacks, play fetch, give her spa days, and tuck her in for beauty sleep — all while keeping her happy, healthy, and fabulous.
 
 ![Queenie Preview](https://media4.giphy.com/media/v1.2lkPTc5MGI3NjExYzE3cTBtcG9peGRkY25taGZudTZ4M3Jza3VwZzA1c3MzM245d3JsZSZlcD12MV9pbnRlcm5hbF9naWZYnlfaWQmY3Q9Zw/2pBlamRY1qD8OyUgfX/giphy.gif)
 
@@ -10,66 +10,93 @@ Welcome to **Queenie von Floof**, your interactive, pampered virtual pet — ins
 
 ## 🎮 Features
 
-- **Real-Time Stats:** Health, Hunger, Happiness, Energy, and Cleanliness.
-- **Action Buttons:** Feed, Play, Sleep, and Clean your pup.
-- **Auto-Decay:** Stats decrease over time — take care of Queenie or face the royal pout!
-- **Dynamic Reactions:** Her status and mood messages change based on her condition.
-- **Animated Feedback:** Each button includes a cute animation and matching sound effect.
-- **Elegant Design:** Soft, royal color palette with charming dog-themed UI.
+### 🐾 Pet Care
+
+* **Real-Time Stats:** Health, Hunger, Happiness, Energy, and Cleanliness (with auto-decay).
+* **Action Buttons:** Feed, Play, Sleep, and Clean your pup.
+* **Dynamic Reactions:** Queenie’s mood messages shift depending on her condition.
+* **Smooth Animations:** Idle video plus unique animations for play, bath, and sleep.
+* **Sound Design:** Background music system with mute/unmute toggle, plus jump/death effects in mini-games.
+
+### 🌟 Progression
+
+* **Leveling System:** Gain XP through actions; glow effect when leveling up.
+* **Cooldowns:** Prevents action spamming for fair play.
+
+### 👤 Accounts & Persistence
+
+* **Sign Up / Sign In Flow:** Title screen with user accounts.
+* **Save/Load System:** Persistent saves tied to each user, fixes for logout/login bugs.
+* **Session Handling:** Duplicate stat declarations removed, ensuring reliable progress tracking.
+
+### 🎮 Mini-Games
+
+* **Collapsible Widget Panel:** Quick access from the main interface.
+* **Catcher:** Session persistence, styled start screen, smooth game-over flow with stacked buttons, lives & score display.
+* **Flappy Queenie:** Start overlay with fade-out animation, scrolling base, synced background, sounds, and polish.
+
+### 🎨 Design
+
+* **Royal-Themed UI:** Elegant, soft, and dog-charming.
+* **Responsive Layout:** Refactored to keep mini-game widgets outside the main container.
+* **Polished Menus:** Blurred start screen, styled buttons, and improved alignment.
 
 ---
 
 ## 🚀 Live Preview
 
-**Play it now:**  
-🔗 [https://kira-iovenko.github.io/virtual_pet/](https://kira-iovenko.github.io/virtual_pet/)
+**Play it now:**
+🔗 [https://kira-iovenko.github.io/virtual\_pet/](https://kira-iovenko.github.io/virtual_pet/)
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & AI Use
 
-- **HTML/CSS/JavaScript**
-- No frameworks or external libraries — pure front-end code.
-- Sound effects from [SoundJay.com](https://www.soundjay.com/).
+* **HTML/CSS/JavaScript** (pure front-end code).
+* **AI Assistance Throughout Development:**
+
+  * Generated **art assets** (icons, banners, animations).
+  * Created **video loops** for idle/animation states.
+  * Generated **code scaffolding & fixes** (UI, gameplay, bug resolution).
+  * Iterative commits documented AI‑assisted workflows.
+* Sound effects from [SoundJay.com](https://www.soundjay.com/).
 
 ---
 
 ## 📦 How to Use
 
 1. **Clone or download** the repository:
+
    ```bash
    git clone https://github.com/kira-iovenko/virtual_pet.git
    ```
 2. **Open `index.html`** in your browser.
-3. Interact with Queenie using the buttons, and keep her stats up!
-4. Watch out — if her needs go unmet, she gets dramatic.
+3. Sign up or log in to start playing with your own save file.
+4. Keep Queenie’s stats up, level her, and try the mini-games!
 
 ---
 
-## 🔊 Sound Effects
+## 🔊 Audio Breakdown
 
-Each action plays a unique sound:
-- **Feed**: Crunching snack
-- **Play**: Squeaky toy
-- **Sleep**: Magical chime (with slight delay)
-- **Clean**: Splashy water
+* **Feed:** Crunching snack.
+* **Play:** Squeaky toy.
+* **Sleep:** Magical chime.
+* **Clean:** Splashy water.
+* **Mini-Games:** Jump + death sound effects.
 
 ---
 
-## 💡 Ideas for Future Features
+## 💡 Roadmap
 
-- Custom outfits for Queenie
-- Mood-based GIF switching
-- Mini-games for happiness
-- Save/load state with local storage
-- Royal garden decor or accessories shop
+* Custom outfits for Queenie.
+* Unlockable items tied to levels.
+* Royal garden or accessory shop.
+* More mini-games (card game, maze, etc.).
+* Expanded pet moods with seasonal events.
 
 ---
 
 ## 🙌 Author
 
 Made with ❤️ by [@kira-iovenko](https://github.com/kira-iovenko)
-
----
-
 👑 *Queenie thanks you for your devotion.* 💖🐾
