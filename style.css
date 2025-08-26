@@ -6,7 +6,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   margin: 0;
-  font-family: 'Georgia', serif;
+  font-family: 'Poppins Rounded';
   background: linear-gradient(135deg, #f9e6f7, #e0b3d6);
   color: #4a004a;
 }
@@ -240,11 +240,13 @@ body {
 /* ======= Login/Menu Screens ======= */
 #login-screen,
 #menu-screen {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.25);
+  /* slightly lighter */
   padding: 2rem;
   border-radius: 1.5rem;
-  box-shadow: 0 6px 12px rgba(74, 0, 74, 0.3);
-  backdrop-filter: blur(5px);
+  box-shadow: 0 6px 14px rgba(255, 182, 193, 0.35);
+  /* pinker glow */
+  backdrop-filter: blur(6px);
   text-align: center;
   margin-top: 2rem;
   width: 90%;
@@ -253,32 +255,54 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  transition: transform 0.2s ease;
+}
+
+#login-screen:hover,
+#menu-screen:hover {
+  transform: scale(1.02);
+  /* playful hover */
 }
 
 #login-screen h2,
 #menu-screen h2 {
-  color: #6b004d;
+  font-family: 'Poppins Rounded';
+  /* softer font */
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #4a004a;
+  text-shadow: 1px 1px #ffe6f9;
 }
 
 #usernameInput {
   padding: 0.6rem 1rem;
   font-size: 1rem;
   border-radius: 12px;
-  border: none;
+  border: 2px solid #ffcce6;
+  /* playful border */
   outline: none;
   width: 100%;
   max-width: 300px;
   box-shadow: 0 2px 6px rgba(74, 0, 74, 0.2);
   background-color: #fff0f7;
   color: #4a004a;
-  font-family: 'Georgia', serif;
+  font-family: 'Quicksand';
+  /* swap to rounder font */
+  transition: 0.3s ease;
+}
+
+#usernameInput:focus {
+  border-color: #ff99cc;
+  box-shadow: 0 0 10px rgba(255, 153, 204, 0.6);
 }
 
 #login-status {
+  font-family: 'Quicksand';
   font-style: italic;
-  color: #6b004d;
+  color: #b45288;
   font-size: 0.95rem;
 }
+
 
 /* Button Rows Shared */
 .button-row {
@@ -289,22 +313,37 @@ body {
 }
 
 .button-row button {
-  padding: 12px 24px;
-  font-size: 1.2rem;
+  padding: 12px 28px;
+  /* slightly wider for a comfy feel */
+  font-size: 1.1rem;
+  /* a bit smaller so it's not overpowering */
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 16px;
+  /* rounder corners = softer, cuter */
   border: none;
-  background-color: #c97dbf;
+  background: linear-gradient(135deg, #d991c7, #c97dbf);
+  /* soft gradient */
   color: #fff0f7;
   font-weight: bold;
-  box-shadow: 0 4px 6px rgba(201, 125, 191, 0.6);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.5px;
+  /* adds a touch of polish */
+  box-shadow: 0 4px 8px rgba(201, 125, 191, 0.5);
+  transition: transform 0.15s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .button-row button:hover {
-  background-color: #b46bb0;
-  box-shadow: 0 6px 10px rgba(180, 107, 176, 0.8);
+  background: linear-gradient(135deg, #c97dbf, #b46bb0);
+  box-shadow: 0 6px 12px rgba(180, 107, 176, 0.7);
+  transform: translateY(-2px);
+  /* playful lift effect */
 }
+
+.button-row button:active {
+  transform: translateY(0);
+  /* smooth press down */
+  box-shadow: 0 3px 6px rgba(180, 107, 176, 0.6);
+}
+
 
 /* ======= Screen Transitions ======= */
 #login-screen,
