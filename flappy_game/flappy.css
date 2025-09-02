@@ -16,19 +16,20 @@ canvas {
     box-shadow: 0 4px 20px rgba(209, 76, 139, 0.2);
     background: linear-gradient(to top, #e4d0d7, #ffffff);
     display: block;
+    height: auto;
 }
 
 /* Score display */
 #score {
     position: absolute;
-    top: 60px;
+    top: 5%;
     /* moved down from 20px */
     left: 50%;
     transform: translateX(-50%);
     background: #fce9f4;
     border: 2px solid #f3c2e5;
     border-radius: 12px;
-    padding: 16px 32px;
+    padding: 1rem 2rem;
     /* bigger padding */
     font-size: 2rem;
     /* larger text */
@@ -60,7 +61,7 @@ canvas {
 
 .start-box {
     background: white;
-    padding: 30px 50px;
+    padding: 2rem 3rem;
     border-radius: 12px;
     border: 3px solid #e16ca3;
     box-shadow: 0 4px 20px rgba(209, 76, 139, 0.3);
@@ -105,15 +106,14 @@ canvas {
 
 #backToGameBtn {
     position: absolute;
-    bottom: 100px;
+    bottom: 8%;
     /* keep positioning */
     left: 50%;
     transform: translateX(-50%);
     /* keep centered */
     transform-origin: center;
-
     font-size: 1rem;
-    padding: 12px 24px;
+    padding: 14px 28px;
     /* keep the bigger size from Flappy */
     background: linear-gradient(to right, #7e57c2, #b39ddb);
     color: white;
@@ -141,4 +141,25 @@ canvas {
     /* keep centered while scaling */
     box-shadow: 0 2px 6px rgba(91, 44, 111, 0.6);
     background: linear-gradient(to right, #5b2c6f, #8e7cc3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .game-title {
+        font-size: 6vw; /* scales with viewport */
+    }
+    #score {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+    }
+    .start-box {
+        padding: 1.5rem 2rem;
+    }
+    .start-box h2 {
+        font-size: 1.2rem;
+    }
+    #backToGameBtn {
+        font-size: 0.95rem;
+        padding: 12px 24px;
+    }
 }
