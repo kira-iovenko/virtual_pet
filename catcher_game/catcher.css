@@ -23,8 +23,10 @@ h1 {
 
 #game-container {
     position: relative;
-    width: 400px;
+    width: 90vw;
+    max-width: 400px;
     height: 600px;
+    /* fallback for mobile */
     background: linear-gradient(to top, #ffeef6, #ffffff);
     border: 4px solid pink;
     overflow: hidden;
@@ -47,13 +49,13 @@ h1 {
     background: #fce9f4;
     border: 2px solid #f3c2e5;
     border-radius: 12px;
-    padding: 8px 16px;
     font-size: 1.2rem;
     color: #d14c8b;
     font-weight: bold;
     box-shadow: 0 2px 6px rgba(209, 76, 139, 0.2);
-    min-width: 100px;
-    height: 40px;
+    padding: 0.5rem 1rem;
+    min-width: 80px;
+    height: 35px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1;
     padding-bottom: 6px;
@@ -61,19 +63,24 @@ h1 {
 
 #queenie {
     position: absolute;
-    bottom: 10px;
-    left: 170px;
-    width: 80px;
-    height: 80px;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15vw;
+    max-width: 80px;
+    aspect-ratio: 1/1;
+    /* keeps square shape */
     background-image: url('head.png');
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
 }
 
 .falling-item {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 12vw;
+    max-width: 60px;
+    aspect-ratio: 1/1;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -193,8 +200,10 @@ h1 {
     color: #d14c8b;
     font-weight: bold;
     box-shadow: 0 2px 6px rgba(209, 76, 139, 0.2);
-    min-width: 100px;
-    height: 40px;
+    padding: 0.5rem 1rem;
+    min-width: 80px;
+    height: 35px;
+    ;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -308,8 +317,11 @@ h1 {
     line-height: 1.3;
 }
 
-/* Responsive stacking for smaller screens */
 @media (max-width: 600px) {
+    #game-container {
+        height: 500px;
+    }
+
     .game-area {
         flex-direction: column;
         align-items: center;
@@ -317,5 +329,32 @@ h1 {
 
     .side-widget {
         margin-top: 12px;
+        width: 90%;
+        max-width: 200px;
+    }
+
+    #queenie {
+        bottom: 3%;
+        width: 18vw;
+    }
+
+    .falling-item {
+        width: 14vw;
+    }
+
+    .score-box,
+    .lives-box,
+    #lives-container {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+        min-width: 70px;
+        height: 32px;
+    }
+
+    #backToGameBtn,
+    #startGameBtn,
+    .game-over-buttons button {
+        font-size: 1rem;
+        padding: 12px 24px;
     }
 }
