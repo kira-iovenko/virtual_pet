@@ -1,0 +1,54 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to top, #f9e6f7, #ffffff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+  color: #d14c8b;
+  margin-bottom: 20px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 100px);
+  gap: 2px;
+  background: #333;
+  border: 4px solid #333;
+}
+
+.tile {
+  width: 100px;
+  height: 100px;
+  background-image: url("../images/thriving.png");
+  background-size: 400px 400px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.empty {
+  background: #333;
+  cursor: default;
+}
+
+.info-bar {
+  margin-top: 20px;
+}
+#backToGameBtn {
+  padding: 10px 20px;
+  background: linear-gradient(to right, #7e57c2, #b39ddb);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+#backToGameBtn:hover {
+  transform: scale(1.05);
+}
