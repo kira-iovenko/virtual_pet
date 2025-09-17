@@ -1,6 +1,7 @@
 const size = 4; // 4x4 grid
 const board = document.getElementById("board");
 let tiles = [];
+let isShuffling = false;
 
 // Create tiles
 function init() {
@@ -54,7 +55,49 @@ function moveTile(tile) {
 
     // Update tiles array
     tiles = Array.from(board.children);
+
+    // Check win after every move
+    if (!isShuffling && checkSolved()) {
+      setTimeout(() => alert("🎉 Puzzle Solved!"), 100);
+    }
+
   }
+}
+
+// Shuffle by making random valid moves
+function shuffle(times = 200) {
+  isShuffling = true;
+  for (let i = 0; i < times; i++) {
+    const emptyTile = tiles.find(t => t.classList.contains("empty"));
+    const emptyIndex = Array.from(board.children).indexOf(emptyTile);
+    const emptyRow = Math.floor(emptyIndex / size);
+    const emptyCol = emptyIndex % size;
+
+    // Collect adjacent tiles
+    const neighbors = tiles.filter((tile, idx) => {
+      const row = Math.floor(idx / size);
+      const col = idx % size;
+      return (
+        (row === emptyRow && Math.abs(col - emptyCol) === 1) ||
+        (col === emptyCol && Math.abs(row - emptyRow) === 1)
+      );
+    });
+
+    // Pick a random neighbor and move it
+    const randomTile = neighbors[Math.floor(Math.random() * neighbors.length)];
+    moveTile(randomTile);
+  }
+  isShuffling = false;
+}
+
+// Check if puzzle is solved
+function checkSolved() {
+  for (let i = 0; i < tiles.length; i++) {
+    if (parseInt(tiles[i].dataset.index) !== i) {
+      return false;
+    }
+  }
+  return true;
 }
 
 // Add click events
@@ -65,4 +108,6 @@ board.addEventListener("click", e => {
   }
 });
 
+// Initialize and shuffle on load
 init();
+shuffle();
