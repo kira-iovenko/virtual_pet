@@ -38,8 +38,11 @@ h1 {
 
 .info-bar {
   margin-top: 20px;
+  display: flex;
+  gap: 10px;
 }
-#backToGameBtn {
+
+.info-bar button {
   padding: 10px 20px;
   background: linear-gradient(to right, #7e57c2, #b39ddb);
   color: white;
@@ -49,6 +52,7 @@ h1 {
   cursor: pointer;
   transition: 0.2s;
 }
-#backToGameBtn:hover {
+
+.info-bar button:hover {
   transform: scale(1.05);
 }

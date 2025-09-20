@@ -64,8 +64,8 @@ function moveTile(tile) {
   }
 }
 
-// Shuffle by making random valid moves
-function shuffle(times = 200) {
+// --- Instant Shuffle (solvable random state) ---
+function instantShuffle(times = 200) {
   isShuffling = true;
   for (let i = 0; i < times; i++) {
     const emptyTile = tiles.find(t => t.classList.contains("empty"));
@@ -89,6 +89,47 @@ function shuffle(times = 200) {
   }
   isShuffling = false;
 }
+
+// --- Animated Shuffle (step-by-step) ---
+function animatedShuffle(times = 50, speed = 100) {
+  isShuffling = true;
+  let moves = 0;
+
+  function doMove() {
+    if (moves >= times) {
+      isShuffling = false;
+      return;
+    }
+    const emptyTile = tiles.find(t => t.classList.contains("empty"));
+    const emptyIndex = Array.from(board.children).indexOf(emptyTile);
+    const emptyRow = Math.floor(emptyIndex / size);
+    const emptyCol = emptyIndex % size;
+
+    const neighbors = tiles.filter((tile, idx) => {
+      const row = Math.floor(idx / size);
+      const col = idx % size;
+      return (
+        (row === emptyRow && Math.abs(col - emptyCol) === 1) ||
+        (col === emptyCol && Math.abs(row - emptyRow) === 1)
+      );
+    });
+
+    const randomTile = neighbors[Math.floor(Math.random() * neighbors.length)];
+    moveTile(randomTile);
+
+    moves++;
+    setTimeout(doMove, speed);
+  }
+
+  doMove();
+}
+
+// --- Hook up buttons ---
+document.getElementById("animatedShuffleBtn")
+  .addEventListener("click", () => animatedShuffle(50, 100));
+
+document.getElementById("instantShuffleBtn")
+  .addEventListener("click", () => instantShuffle(100));
 
 // Check if puzzle is solved
 function checkSolved() {
