@@ -44,7 +44,6 @@ h1 {
 
 .info-bar button {
   padding: 10px 20px;
-  background: linear-gradient(to right, #7e57c2, #b39ddb);
   color: white;
   font-weight: bold;
   border: none;
@@ -53,6 +52,41 @@ h1 {
   transition: 0.2s;
 }
 
-.info-bar button:hover {
+/* Animated Shuffle → Blue gradient */
+#animatedShuffleBtn {
+  background: linear-gradient(to right, #42a5f5, #64b5f6);
+}
+#animatedShuffleBtn:hover {
   transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(66, 165, 245, 0.7);
+}
+#animatedShuffleBtn:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+
+/* Instant Shuffle → Green gradient */
+#instantShuffleBtn {
+  background: linear-gradient(to right, #66bb6a, #81c784);
+}
+#instantShuffleBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(102, 187, 106, 0.7);
+}
+#instantShuffleBtn:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+
+/* Back to Game → Purple gradient */
+#backToGameBtn {
+  background: linear-gradient(to right, #7e57c2, #b39ddb);
+}
+#backToGameBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(126, 87, 194, 0.7);
+}
+#backToGameBtn:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
 }
