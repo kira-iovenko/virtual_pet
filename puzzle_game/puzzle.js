@@ -2,6 +2,31 @@ const size = 4; // 4x4 grid
 const board = document.getElementById("board");
 let tiles = [];
 let isShuffling = false;
+let moveCount = 0;
+let startTime = null;
+let timerInterval = null;
+
+const moveCounterEl = document.getElementById("moveCounter");
+const timerEl = document.getElementById("timer");
+
+function updateMoveCounter() {
+  moveCounterEl.textContent = `Moves: ${moveCount}`;
+}
+
+function startTimer() {
+  if (!timerInterval) {
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      timerEl.textContent = `Time: ${elapsed}s`;
+    }, 1000);
+  }
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
 
 // Create tiles
 function init() {
@@ -61,6 +86,19 @@ function moveTile(tile) {
       setTimeout(() => alert("🎉 Puzzle Solved!"), 100);
     }
 
+    // Update counters only when not shuffling
+    if (!isShuffling) {
+      if (moveCount === 0) startTimer();
+      moveCount++;
+      updateMoveCounter();
+    }
+
+    // Check win
+    if (!isShuffling && checkSolved()) {
+      stopTimer();
+      setTimeout(() => alert("🎉 Puzzle Solved!"), 100);
+    }
+
   }
 }
 
@@ -90,32 +128,47 @@ function instantShuffle(times = 200) {
   isShuffling = false;
 }
 
-// --- Animated Shuffle (step-by-step) ---
+// --- Animated Shuffle (step-by-step, avoids backtracking) ---
 function animatedShuffle(times = 50, speed = 100) {
   isShuffling = true;
   let moves = 0;
+  let lastEmptyIndex = null;
 
   function doMove() {
     if (moves >= times) {
       isShuffling = false;
       return;
     }
+
     const emptyTile = tiles.find(t => t.classList.contains("empty"));
     const emptyIndex = Array.from(board.children).indexOf(emptyTile);
     const emptyRow = Math.floor(emptyIndex / size);
     const emptyCol = emptyIndex % size;
 
-    const neighbors = tiles.filter((tile, idx) => {
-      const row = Math.floor(idx / size);
-      const col = idx % size;
-      return (
-        (row === emptyRow && Math.abs(col - emptyCol) === 1) ||
-        (col === emptyCol && Math.abs(row - emptyRow) === 1)
-      );
-    });
+    // Collect valid neighbors
+    let neighbors = tiles
+      .map((tile, idx) => ({ tile, idx }))
+      .filter(({ idx }) => {
+        const row = Math.floor(idx / size);
+        const col = idx % size;
+        return (
+          (row === emptyRow && Math.abs(col - emptyCol) === 1) ||
+          (col === emptyCol && Math.abs(row - emptyRow) === 1)
+        );
+      });
 
-    const randomTile = neighbors[Math.floor(Math.random() * neighbors.length)];
+    // Exclude the neighbor that would send the empty back to its last position
+    if (lastEmptyIndex !== null) {
+      neighbors = neighbors.filter(n => n.idx !== lastEmptyIndex);
+    }
+
+    // Pick a random neighbor and move it
+    const { tile: randomTile, idx: randomIndex } =
+      neighbors[Math.floor(Math.random() * neighbors.length)];
     moveTile(randomTile);
+
+    // Remember where the empty tile was (so we don’t move back)
+    lastEmptyIndex = emptyIndex;
 
     moves++;
     setTimeout(doMove, speed);
@@ -149,6 +202,14 @@ board.addEventListener("click", e => {
   }
 });
 
-// Initialize and shuffle on load
+function resetStats() {
+  moveCount = 0;
+  updateMoveCounter();
+  stopTimer();
+  timerEl.textContent = "Time: 0s";
+}
+
+// Initialize, shuffle, and reset stats on load
 init();
 shuffle();
+resetStats();
