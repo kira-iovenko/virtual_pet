@@ -11,11 +11,22 @@
 
   <div class="board" id="board"></div>
 
+  <!-- Win Popup -->
+  <div id="winPopup" class="popup hidden">
+    <div class="popup-content">
+      <h2>🎉 Puzzle Solved!</h2>
+      <p id="finalStats"></p>
+      <button id="closePopupBtn">Close</button>
+    </div>
+  </div>
+
+  <!-- Status Bar -->
   <div class="status-bar">
     <span id="moveCounter">Moves: 0</span>
     <span id="timer">Time: 0s</span>
   </div>
-  
+
+  <!-- Control Buttons -->
   <div class="info-bar">
     <button id="animatedShuffleBtn">Animated Shuffle</button>
     <button id="instantShuffleBtn">Instant Shuffle</button>

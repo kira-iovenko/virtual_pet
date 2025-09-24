@@ -13,6 +13,8 @@ h1 {
   margin-bottom: 20px;
 }
 
+/* Puzzle board styles */
+
 .board {
   display: grid;
   grid-template-columns: repeat(4, 100px);
@@ -21,7 +23,6 @@ h1 {
   background: #333;
   border: 4px solid #333;
 }
-
 .tile {
   width: 100px;
   height: 100px;
@@ -30,18 +31,18 @@ h1 {
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .empty {
   background: #333;
   cursor: default;
 }
+
+/* Info bar containing buttons */
 
 .info-bar {
   margin-top: 20px;
   display: flex;
   gap: 10px;
 }
-
 .info-bar button {
   padding: 10px 20px;
   color: white;
@@ -53,6 +54,7 @@ h1 {
 }
 
 /* Animated Shuffle → Blue gradient */
+
 #animatedShuffleBtn {
   background: linear-gradient(to right, #42a5f5, #64b5f6);
 }
@@ -66,6 +68,7 @@ h1 {
 }
 
 /* Instant Shuffle → Green gradient */
+
 #instantShuffleBtn {
   background: linear-gradient(to right, #66bb6a, #81c784);
 }
@@ -79,6 +82,7 @@ h1 {
 }
 
 /* Back to Game → Purple gradient */
+
 #backToGameBtn {
   background: linear-gradient(to right, #7e57c2, #b39ddb);
 }
@@ -90,6 +94,8 @@ h1 {
   transform: scale(0.95);
   filter: brightness(0.9);
 }
+
+/* Status Bar for moves and timer */
 
 .status-bar {
   margin-top: 10px;
@@ -104,4 +110,62 @@ h1 {
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 6px rgba(209, 76, 139, 0.2);
   user-select: none;
+}
+
+/* Popup overlay */
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.popup.hidden {
+  display: none;
+}
+.popup-content {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: popIn 0.3s ease;
+}
+.popup-content h2 {
+  color: #d14c8b;
+  margin-bottom: 1rem;
+}
+.popup-content p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+.popup-content button {
+  padding: 10px 20px;
+  background: linear-gradient(to right, #7e57c2, #b39ddb);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.popup-content button:hover {
+  transform: scale(1.05);
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

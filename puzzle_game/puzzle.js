@@ -5,14 +5,20 @@ let isShuffling = false;
 let moveCount = 0;
 let startTime = null;
 let timerInterval = null;
+let gameStarted = false;
 
 const moveCounterEl = document.getElementById("moveCounter");
 const timerEl = document.getElementById("timer");
+const winPopup = document.getElementById("winPopup");
+const finalStats = document.getElementById("finalStats");
+const closePopupBtn = document.getElementById("closePopupBtn");
 
+// Update move counter display
 function updateMoveCounter() {
   moveCounterEl.textContent = `Moves: ${moveCount}`;
 }
 
+// Start timer
 function startTimer() {
   if (!timerInterval) {
     startTime = Date.now();
@@ -23,9 +29,26 @@ function startTimer() {
   }
 }
 
+// Stop timer
 function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
+}
+
+// Show win popup
+function showWinPopup() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  finalStats.textContent = `You solved it in ${moveCount} moves and ${elapsed} seconds!`;
+  winPopup.classList.remove("hidden");
+}
+
+// Reset stats
+function resetStats() {
+  moveCount = 0;
+  updateMoveCounter();
+  stopTimer();
+  timerEl.textContent = "Time: 0s";
+  gameStarted = false;
 }
 
 // Create tiles
@@ -81,22 +104,22 @@ function moveTile(tile) {
     // Update tiles array
     tiles = Array.from(board.children);
 
-    // Check win after every move
-    if (!isShuffling && checkSolved()) {
-      setTimeout(() => alert("🎉 Puzzle Solved!"), 100);
-    }
-
     // Update counters only when not shuffling
     if (!isShuffling) {
+      if (!gameStarted) {
+        gameStarted = true;
+        startTimer();
+      }
       if (moveCount === 0) startTimer();
       moveCount++;
       updateMoveCounter();
     }
 
     // Check win
-    if (!isShuffling && checkSolved()) {
+    if (!isShuffling && gameStarted && checkSolved()) {
       stopTimer();
-      setTimeout(() => alert("🎉 Puzzle Solved!"), 100);
+      showWinPopup();
+      gameStarted = false;
     }
 
   }
@@ -196,20 +219,21 @@ function checkSolved() {
 
 // Add click events
 board.addEventListener("click", e => {
-  if (e.target.classList.contains("tile") &&
+  if (gameStarted && 
+      e.target.classList.contains("tile") &&
       !e.target.classList.contains("empty")) {
     moveTile(e.target);
   }
 });
 
-function resetStats() {
-  moveCount = 0;
-  updateMoveCounter();
-  stopTimer();
-  timerEl.textContent = "Time: 0s";
-}
+closePopupBtn.addEventListener("click", () => {
+  winPopup.classList.add("hidden");
+  resetStats();
+  init();
+});
 
-// Initialize, shuffle, and reset stats on load
+
+// Initialize, and reset stats on load
 init();
-shuffle();
+instantShuffle(100);
 resetStats();
