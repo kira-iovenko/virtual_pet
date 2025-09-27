@@ -81,6 +81,22 @@ h1 {
   filter: brightness(0.9);
 }
 
+/* View Leaderboard → Yellow gradient */
+
+#viewLeaderboardBtn {
+  background: linear-gradient(to right, #fbc02d, #ffd54f);
+  color: #333;
+}
+#viewLeaderboardBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(251, 192, 45, 0.7);
+}
+#viewLeaderboardBtn:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+
+
 /* Back to Game → Purple gradient */
 
 #backToGameBtn {
@@ -159,6 +175,8 @@ h1 {
   transform: scale(1.05);
 }
 
+/* Popup animation */
+
 @keyframes popIn {
   from {
     transform: scale(0.8);
@@ -167,5 +185,43 @@ h1 {
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+/* Leaderboard styles */
+
+#leaderboardList {
+  text-align: left;
+  margin: 0 auto 1rem;
+  padding: 0;
+  max-width: 250px;
+  font-size: 1rem;
+  color: #333;
+}
+#leaderboardList li {
+  margin: 2px 0;
+}
+#leaderboardList li.current-user {
+  font-weight: bold;
+  color: #d14c8b;
+}
+
+/* New Record Highlight */
+
+.new-record {
+  color: #e67e22;
+  font-weight: bold;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  animation: glowPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    text-shadow: 0 0 5px #f39c12;
+  }
+  to {
+    text-shadow: 0 0 15px #e67e22;
   }
 }

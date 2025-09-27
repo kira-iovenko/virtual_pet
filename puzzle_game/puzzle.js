@@ -1,5 +1,5 @@
 const size = 4; // 4x4 grid
-const board = document.getElementById("board");
+const resultsKey = "puzzle-results";
 let tiles = [];
 let isShuffling = false;
 let moveCount = 0;
@@ -7,11 +7,28 @@ let startTime = null;
 let timerInterval = null;
 let gameStarted = false;
 
+let currentUser = localStorage.getItem("queenie-current-user") || "Guest";
+
+const board = document.getElementById("board");
 const moveCounterEl = document.getElementById("moveCounter");
 const timerEl = document.getElementById("timer");
 const winPopup = document.getElementById("winPopup");
+const popupTitle = document.getElementById("popupTitle");
 const finalStats = document.getElementById("finalStats");
 const closePopupBtn = document.getElementById("closePopupBtn");
+const newRecordMsg = document.getElementById("newRecordMsg");
+
+// Load results from localStorage
+function loadResults() {
+  return JSON.parse(localStorage.getItem(resultsKey)) || [];
+}
+
+// Save a new result
+function saveResult(user, moves, time) {
+  const results = loadResults();
+  results.push({ user, moves, time, date: Date.now() });
+  localStorage.setItem(resultsKey, JSON.stringify(results));
+}
 
 // Update move counter display
 function updateMoveCounter() {
@@ -35,10 +52,75 @@ function stopTimer() {
   timerInterval = null;
 }
 
+// Build leaderboard display
+function buildLeaderboard() {
+  let records = loadResults();
+
+  // Sort: moves → time → most recent first
+  records.sort((a, b) => {
+    if (a.moves === b.moves && a.time === b.time) {
+      return b.date - a.date; // newer above older
+    }
+    if (a.moves === b.moves) return a.time - b.time;
+    return a.moves - b.moves;
+  });
+
+  const top10 = records.slice(0, 10);
+  const listEl = document.getElementById("leaderboardList");
+  listEl.innerHTML = "";
+
+  // Always 10 slots
+  for (let i = 0; i < 10; i++) {
+    const r = top10[i];
+    const li = document.createElement("li");
+
+    if (r) {
+      li.textContent = `${r.user}: ${r.moves} moves, ${r.time}s`;
+      if (r.user === currentUser) {
+        li.classList.add("current-user");
+        li.textContent = `👑 ${li.textContent}`;
+      }
+    } else {
+      li.textContent = "---";
+      li.style.color = "#bbb";
+    }
+
+    listEl.appendChild(li);
+  }
+}
+
+
 // Show win popup
 function showWinPopup() {
+  popupTitle.textContent = "🎉 Puzzle Solved!";
   const elapsed = Math.floor((Date.now() - startTime) / 1000);
+
+  // Save this run
+  saveResult(currentUser, moveCount, elapsed);
+
+  // Load all results
+  const allResults = loadResults();
+
+  // Find this user's best result
+  const userResults = allResults.filter(r => r.user === currentUser);
+  const best = userResults.reduce((best, r) => {
+    if (!best) return r;
+    if (r.moves < best.moves) return r;
+    if (r.moves === best.moves && r.time < best.time) return r;
+    return best;
+  }, null);
+
+  // Determine if the latest run is a new record
+  const latest = userResults[userResults.length - 1];
+  let isNewRecord = (latest === best);
+
+  // Build leaderboard
+  buildLeaderboard();
+
+  // Show stats
   finalStats.textContent = `You solved it in ${moveCount} moves and ${elapsed} seconds!`;
+  newRecordMsg.style.display = isNewRecord ? "block" : "none";
+
   winPopup.classList.remove("hidden");
 }
 
@@ -206,6 +288,15 @@ document.getElementById("animatedShuffleBtn")
 
 document.getElementById("instantShuffleBtn")
   .addEventListener("click", () => instantShuffle(100));
+
+document.getElementById("viewLeaderboardBtn")
+  .addEventListener("click", () => {
+    popupTitle.textContent = "🏆 Leaderboard";
+    finalStats.textContent = ""; // no run stats here
+    newRecordMsg.style.display = "none";
+    buildLeaderboard();
+    winPopup.classList.remove("hidden");
+  });
 
 // Check if puzzle is solved
 function checkSolved() {

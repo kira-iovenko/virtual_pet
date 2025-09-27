@@ -14,8 +14,10 @@
   <!-- Win Popup -->
   <div id="winPopup" class="popup hidden">
     <div class="popup-content">
-      <h2>🎉 Puzzle Solved!</h2>
+      <h2 id="popupTitle">🎉 Puzzle Solved!</h2>
       <p id="finalStats"></p>
+      <p id="newRecordMsg" class="new-record" style="display:none;">✨ New Record!</p>
+      <ol id="leaderboardList"></ol>
       <button id="closePopupBtn">Close</button>
     </div>
   </div>
@@ -30,6 +32,7 @@
   <div class="info-bar">
     <button id="animatedShuffleBtn">Animated Shuffle</button>
     <button id="instantShuffleBtn">Instant Shuffle</button>
+    <button id="viewLeaderboardBtn">View Leaderboard</button>
     <button id="backToGameBtn" onclick="returnToQueenie()">Back to Game</button>
   </div>
 
